@@ -1,0 +1,15 @@
+Package: rnaSeqMap
+Type: Package
+Title: rnaSeq analyses using xmapcore database
+Version: 0.99.0
+Date: 2010-10-01
+Author: Anna Lesniewska <alesniewska@cs.put.poznan.pl>; Michal Okoniewski <michal@fgcz.ethz.ch>
+Maintainer: Michal Okoniewski <michal@fgcz.ethz.ch>
+Depends: R (>= 2.11.0), methods, xmapcore
+Imports: Biobase, IRanges, edgeR, DESeq, DBI,  RMySQL (>= 0.6-0)
+Suggests: 
+Description: Provides means of analysis for RNAseq data, used together with genomic annotation from Ensembl. Requires an xmapcore database in MySQL as a back-end, which is also a storage for sequencing reads. Front-end analyses include transformations of the coverage function, splicing analysis, finding irreducible regions with the two-sliding-windows algorithm and genomic region visualizations. 
+License: GPL-2 
+URL: 
+biocViews: Annotation, Bioinformatics,  ReportWriting, Transcription, GeneExpression, DifferentialExpression, HighThroughputSequencing, RNAseq, SAGE, Visualization
+Collate: zzz.R utils.R plots.R NucleotideDistr.R SeqReads.R NDplots.R NDtransforms.R pipelines.R

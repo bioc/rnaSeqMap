@@ -1,0 +1,15 @@
+import("methods")
+importClassesFrom(Biobase, eSet, VersionedBiobase, Versioned,
+                  AnnotatedDataFrame, AssayData, MIAME, Versions)
+importFrom(Biobase, annotatedDataFrameFrom, assayData, assayDataNew,
+           classVersion)
+importFrom(DESeq, newCountDataSet)
+importFrom(edgeR, calcNormFactors, DGEList)
+import("IRanges")
+import("xmapcore")
+exportPattern("^[^\\.]")
+
+useDynLib( rnaSeqMap, gcoverage, ghistogram, regionmining, splicingind )
+
+
+
