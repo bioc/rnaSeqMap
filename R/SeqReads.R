@@ -3,7 +3,7 @@
 #  for a number of experimnets. Thus the genomic coordinates 
 #  must be defined on initialization/construction 
 # It is not S4 class, it is a half-product for NucleotideDistribution, which is S4
-#  AL,MO, 18.08.2010
+#  AL,MO, 18.08.2010 update 5.10.2010
 #####################################################################
 
 setClass( "SeqReads",
@@ -78,7 +78,7 @@ addExperimentsToReadset <- function(rs,exps)
   stopifnot( is( rs, "SeqReads" ) )
   for (e in exps)
   {
-    datain <- readsInRange (e, rs@chr, rs@start, rs@end, rs@strand)
+    datain <- readsInRange (rs@chr, rs@start, rs@end, rs@strand,e)
     if (is.null(datain)) rs@data[[e]] <- t(as.data.frame(as.numeric(c(0,0)))) 
       #empty readstable is marked as (0,0) 
       # see the joke about programmer looking for elephants in Africa

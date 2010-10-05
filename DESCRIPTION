@@ -1,8 +1,8 @@
 Package: rnaSeqMap
 Type: Package
 Title: rnaSeq analyses using xmapcore database
-Version: 0.99.0
-Date: 2010-10-01
+Version: 0.99.1
+Date: 2010-10-05
 Author: Anna Lesniewska <alesniewska@cs.put.poznan.pl>; Michal Okoniewski <michal@fgcz.ethz.ch>
 Maintainer: Michal Okoniewski <michal@fgcz.ethz.ch>
 Depends: R (>= 2.11.0), methods, xmapcore
