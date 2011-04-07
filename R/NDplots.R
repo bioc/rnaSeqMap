@@ -1,78 +1,8 @@
-#plots
-
-###################################
-distrCOVPlot <- function(nd,exps)
-{  
-	
-	colz <- topo.colors(length(exps))
-	genes <- geneInChromosome(nd@chr,nd@start,nd@end,nd@strand)
-
-	l<-length(exps)
-	par(mfcol=c(l+1,1))
-	par(mar=c(2,2,1,1))
-	
-	nucleotides <- nd@start:nd@end 
-		
-	for (ii in 1:length(exps))
-	{
-		m <- round(max(distribs(nd[,exps]),ns.rm = FALSE))	
-		
-		plot(0,0,xlab="Position on the chromosome",
-			 ylab="Nr of reads", 
-			 xlim=c(nd@start,nd@end), 
-			 ylim=c(0,m),
-			 col.axis="tan4" 
-			 )
-		
-		lines(nucleotides, getDistr(nd,exps[ii]), col=colz[ii],type="l")
-		legend("topleft", legend=c(paste("sample",exps[ii])), fill=(c(col=colz[ii])))
-	}
-	
-	if (is.null(genes))
-	{
-		plot(0,0, xlim=c(nd@start,nd@end), ylim=c(-0.5,1) ,bg="grey100", col.axis="tan4")
-
-		legend("center", legend=c(paste("No gene in this region !","\n")))
-	}
-	else 
-	{
-		plot(0,0,xlab="Position on the chromosome",	ylab="Nr of reads", xlim=c(nd@start,nd@end), ylim=c(-0.5,dim(genes)[1]) ,bg="grey100", col.axis="tan4")
-		
-		k <- 0
-		for (i in 1:dim(genes)[1]) 
-			{
-				gd <- gene.details(genes[i,1])
-				chr    <- gd$space
-				start  <- gd$ranges@start
-				end    <- gd$ranges@start+gd$ranges@width
-				strand <- gd$strand
-		
-				transcripts <- gene.to.transcript(genes[i,1])
-				
-				for (f in 1:length(transcripts)) 
-				{
-					ed <- exon.details(transcript.to.exon(transcripts[f]))
-					estart <- ed$ranges@start
-					ewidth <- ed$ranges@width
-		
-					eksons <- .tunion(transcripts[f])
-		
-						for (j in 1:length(eksons))
-							{
-								rect(eksons@start[j],k,eksons@start[j]+eksons@width[j],k+0.2,col=colz[i])
-							}
-				 k<-k+0.3
-				}
-			}
-	}
-    legend("bottom", legend=paste("Coverage for chromosome:",nd@chr," strand:",nd@strand))
-    legend("bottomright", legend=c(paste("Gene: ",genes[,2])))
-		
-}
+#plots for nd with list of Rle
+#AL
 
 
-
-###################################
+####################################################################################################################
 
 distrSIPlot <- function(nd, ex1, ex2, mi,minsup=5)
 {  
@@ -80,8 +10,8 @@ distrSIPlot <- function(nd, ex1, ex2, mi,minsup=5)
 	par(mar=c(2,2,1,1))
 	
 	nucleotides <- nd@start:nd@end 
-	m1 <- max(distribs(nd[,ex1]),ns.rm = FALSE)
-	m2 <- max(distribs(nd[,ex2]),ns.rm = FALSE)
+	m1 <- max(RleList2matrix(nd@data[ex1]),ns.rm = FALSE)
+	m2 <- max(RleList2matrix(nd@data[ex2]),ns.rm = FALSE)
 	m  <- max(m1,m2)
 	genes <- geneInChromosome(nd@chr,nd@start,nd@end,nd@strand)
 	
@@ -92,14 +22,14 @@ distrSIPlot <- function(nd, ex1, ex2, mi,minsup=5)
 		 bg="grey100", 
 		 col.axis="tan4" )
 	
-	lines(nucleotides, getDistr(nd,ex1), col="blue",type="l")
-	lines(nucleotides, getDistr(nd,ex2), col="red",type="l")
+	lines(nucleotides, RleList2matrix(nd@data[ex1]), col="blue",type="l")
+	lines(nucleotides, RleList2matrix(nd@data[ex2]), col="red",type="l")
 	
-	s1<-sum(distribs(nd[,ex1]))
-	s2<-sum(distribs(nd[,ex2]))
+	s1<-sum(RleList2matrix(nd@data[ex1]))
+	s2<-sum(RleList2matrix(nd@data[ex2]))
 	c=((s1/s2))
 	
-	outp <- .Call("splicingind", as.numeric(distribs(nd[,ex1])), as.numeric(distribs(nd[,ex2])),c)
+	outp <- .Call("splicingind", as.numeric(RleList2matrix(nd@data[ex1])), as.numeric(RleList2matrix(nd@data[ex2])),c)
 	out <- cbind(nucleotides,(outp))
 
 	plot(0,0,xlab="Position on the chromosome",
@@ -120,8 +50,8 @@ distrSIPlot <- function(nd, ex1, ex2, mi,minsup=5)
 		 bg="grey100", 
 		 col.axis="tan4" )
 	
-	lines(nucleotides,distribs(nd.reg[,ex1]),col="blue",type="h")
-	lines(nucleotides,distribs(nd.reg[,ex2]),col="red",type="h")
+	lines(nucleotides,as.vector(nd.reg@data[[ex1]]),col="blue",type="h")
+	lines(nucleotides,as.vector(nd.reg@data[[ex2]]),col="red",type="h")
 	
 
 	legend("topleft",
@@ -130,8 +60,79 @@ distrSIPlot <- function(nd, ex1, ex2, mi,minsup=5)
 	legend("topright", legend=c(paste("Chromosome:",nd@chr," strand:",nd@strand,"Gene: ",genes[,2])))
 }
 
-########################################################################
+#####################################################################################################################
+distrCOVPlot <- function(nd,exps)
+{  
+	
+	colz <- topo.colors(length(exps))
+	genes <- geneInChromosome(nd@chr,nd@start,nd@end,nd@strand)
+	
+	l<-length(exps)
+	par(mfcol=c(l+1,1))
+	par(mar=c(2,2,1,1))
+	
+	nucleotides <- nd@start:nd@end 
+	
+	for (ii in 1:length(exps))
+	{
+#dlugosc najdluzszego rle
+		m <- max(as.vector(nd@data[[1]]))
+#m <- round(max(distribs(nd[,exps]),ns.rm = FALSE))	
+		
+		plot(0,0,xlab="Position on the chromosome",
+			 ylab="Nr of reads", 
+			 xlim=c(nd@start,nd@end), 
+			 ylim=c(0,m),
+			 col.axis="tan4" 
+			 )
+		
+		lines(nucleotides, RleList2matrix(nd@data[ii]), col=colz[ii],type="l")
+		legend("topleft", legend=c(paste("sample",exps[ii])), fill=(c(col=colz[ii])))
+	}
+	
+	if (is.null(genes))
+	{
+		plot(0,0, xlim=c(nd@start,nd@end), ylim=c(-0.5,1) ,bg="grey100", col.axis="tan4")
+		
+		legend("center", legend=c(paste("No gene in this region !","\n")))
+	}
+	else 
+	{
+		plot(0,0,xlab="Position on the chromosome",	ylab="Nr of reads", xlim=c(nd@start,nd@end), ylim=c(-0.5,dim(genes)[1]) ,bg="grey100", col.axis="tan4")
+		
+		k <- 0
+		for (i in 1:dim(genes)[1]) 
+		{
+			gd <- gene.details(genes[i,1])
+			chr    <- gd$space
+			start  <- gd$ranges@start
+			end    <- gd$ranges@start+gd$ranges@width
+			strand <- gd$strand
+			
+			transcripts <- gene.to.transcript(genes[i,1])
+			
+			for (f in 1:length(transcripts)) 
+			{
+				ed <- exon.details(transcript.to.exon(transcripts[f]))
+				estart <- ed$ranges@start
+				ewidth <- ed$ranges@width
+				
+				eksons <- rnaSeqMap:::.tunion(transcripts[f])
+				
+				for (j in 1:length(eksons))
+				{
+					rect(eksons@start[j],k,eksons@start[j]+eksons@width[j],k+0.2,col=colz[i])
+				}
+				k<-k+0.3
+			}
+		}
+	}
+    legend("bottom", legend=paste("Coverage for chromosome:",nd@chr," strand:",nd@strand))
+    legend("bottomright", legend=c(paste("Gene: ",genes[,2])))
+	
+}
 
+###################################################################################################
 
 distrCOVPlotg <- function(gene_id,exps)
 {  
@@ -149,10 +150,6 @@ distrCOVPlotg <- function(gene_id,exps)
 	start  <- gd$ranges@start
 	end    <- gd$ranges@start+gd$ranges@width
 	strand <- gd$strand
-	
-    rs <- newSeqReads(chr,start,end,strand)
-	rs <- addExperimentsToReadset(rs,exps)
-	nd.cov <- getCoverageFromRS(rs,exps)
 	
 	estart <- ed$ranges@start
  	ewidth <- ed$ranges@width
@@ -219,5 +216,4 @@ distrCOVPlotg <- function(gene_id,exps)
 }
 
 
-
-
+################################

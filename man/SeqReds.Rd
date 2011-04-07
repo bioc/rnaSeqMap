@@ -14,7 +14,7 @@ The object may be filled in from the database or from list with read data. It is
 
 }
 \usage{
-newSeqReads(chr, start, end, strand, datain=NULL)
+newSeqReads(chr, start, end, strand, datain=NULL, phenoData=NULL, featureData=NULL, covdesc=NULL)
 newSeqReadsFromGene(g)
 }
 
@@ -30,6 +30,12 @@ newSeqReadsFromGene(g)
   \item{datain}{If supplied, it must be a list of matrices of reads start and stop
 }
   \item{g}{Ensembl identifier of a gene
+}
+  \item{phenoData}{
+}
+  \item{featureData}{
+}
+  \item{covdesc}{Filename for experiment description
 }
 }
 

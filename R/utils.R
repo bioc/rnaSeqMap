@@ -199,7 +199,7 @@ w
 
 geneInChromosome <- function(chr, start, end, strand)
 {
-	query <- paste("call geneInChromosome(",chr,",",start,",",end,",",strand,");", sep="")
+	query <- paste("call geneInChromosome('",as.character(chr),"',",start,",",end,",",strand,");", sep="")
 	out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con) 
 	out
 }
@@ -208,7 +208,7 @@ spaceInChromosome <- function(chr, start, end, strand)
 {
 	
 	
-	query <- paste("call spaceInChromosome(",chr,",",start,",",end,",",strand,");", sep="")
+	query <- paste("call spaceInChromosome('",as.character(chr),"',",start,",",end,",",strand,");", sep="")
 	out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con) 
 	out
 }
@@ -258,7 +258,8 @@ setSpecies <- function(name=NULL)
 
 
 .chromosome.number <- function(ch)
-{ 
+{
+  if (class(ch)=="factor") ch <- as.vector(ch) 
   cho <- NULL
   s <- get("species", envir=xmapcore:::.xmap.internals)
   if (s=="homo_sapiens")
@@ -285,6 +286,41 @@ setSpecies <- function(name=NULL)
   else cho <- as.numeric(ch)
   cho
 }
+
+
+.chromosome.char <- function(ch)
+{
+if (class(ch)=="factor") ch <- as.vector(ch) 
+chr <- NULL	
+s <- get("species", envir=xmapcore:::.xmap.internals)
+	
+	if (s=="homo_sapiens")
+	{
+		if (ch==23) chr=("X")
+			else if (ch==24) chr=("Y")
+			else if (ch==25) chr=("MT")
+			else chr<- as.character(ch)
+	}
+	else 
+	if (s=="mus_musculus")
+	{
+		if (ch==20) chr=("X")
+		else if (ch==21) chr=("Y")
+		else if (ch==22) chr=("MT")
+        else chr <- as.character(ch)
+	}
+	else if (s=="rattus_norvegicus")
+	{
+		if (ch==21) chr=("X")
+		else if (ch==22) chr=("Y")
+		else if (ch==23) chr=("MT")
+        else chr <- as.character(ch)
+	}
+	else chr <- as.character(ch)
+chr	
+}
+
+
 
 # get experiment (all samples) description from xmap database
 getExpDescription <- function()

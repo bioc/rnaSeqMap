@@ -38,7 +38,7 @@
 \fcolorbox{black}{NoteGrey} {
 \begin{minipage}{13.5cm}
 \begin{center}
-\textbf{ Vignette for v.0.1.24 - created without XMAP database access! }
+\textbf{ Vignette for v.1.99.00 - created without XMAP database access.}
 \end{center}
 
 \end{minipage}
@@ -158,7 +158,7 @@ names(rs.list)
 @
 
 The list contains 17 example genes with their coverage from a real experiment that contains 6 samples. 
-
+Alternatively, the objects can be fed with data directly from BAM files, as described in the next sections. 
 
 \section{\code{ReadSet} and \code{NucleotideDistr} classes}
 
@@ -185,8 +185,14 @@ experimental attributes assigned. The content of this table is assigned to the
 
 <<>>=
 rs <- rs.list[[1]]  # first gene from sample data
-nd.cov <- getCoverageFromRS(rs,1:6)
-distribs(nd.cov)[52000:52010,]    # getting a fragment of the gene
+rs <- newSeqReads(17, 7550000,7650000,1) # several genes on the plus strand 
+rs <- newSeqReads(17, 7565257,7590856,-1) # tp53
+f <- c("test1.bam","test2.bam","test3.bam","test4b.bam","test5b.bam")
+ff <- sapply(f, function(x) system.file("extdata", x, package="rnaSeqMap"))
+rs <- getBamData(rs, 1:5, files=ff)
+nd.cov <- getCoverageFromRS(rs, 1:5)
+dd <- RleList2matrix(distribs(nd.cov))
+dd[4800:4810,]    # getting a fragment of the gene
 @
 
 The distributions in an object may be normalized by getting the sum of reads for 
@@ -197,14 +203,25 @@ nsums <- getSumsExp()
 @
 
 <<echo=FALSE>>=
-nsums <- c(1067676,25033137, 85415567,21236253,18152006,25132926)
+nsums <- c(25918,32577,63250,0,126977)
 @
 
 <<>>=
 nsums
 nd.cov <- normalizeBySum(nd.cov, nsums)
-distribs(nd.cov)[52000:52010,]
+RleList2matrix(distribs(nd.cov))[4800:4810,]
 @
+
+\section{Connecting to data from BAM files}
+
+The way of using the \code{ReadSet} and \code{NucleotideDistr} with data directly from BAM files 
+is using the covdesc file, which is used as the experiment description. Covdesc is assigned 
+as a \code{phenoData} table of the objects. 
+
+Here, the sample BAM files including data from chromosome 17 and genes ATP1B2, P53, WRAP53, ENFNB3, DNAH2 and RPL29B2 
+will be used. 
+
+
 
 \section{Region Mining algorithm}
 
@@ -218,7 +235,7 @@ makes it a part of an irreducible region:
 
 <<>>=
 nd.reg <- findRegionsAsND(nd.cov,6,10)
-distribs(nd.reg)[52000:52010,]
+RleList2matrix(distribs(nd.reg))[4800:4810,]
 @
 
 
@@ -240,10 +257,11 @@ Coverage is included in the object (access with \code{distr()}), however in the
 heuristics for finding genes, we various statistical measures of the coverage for each sample:
 
 <<>>=
-apply(distribs(nd.cov),2,max)
-apply(distribs(nd.cov),2,mean)
-apply(distribs(nd.cov),2,sum)
-apply(distribs(nd.cov),2,sd)
+dd <- RleList2matrix(distribs(nd.cov))
+apply(dd,2,max)
+apply(dd,2,mean)
+apply(dd,2,sum)
+apply(dd,2,sd)
 @
 
 \subsection{Splicing}
@@ -257,16 +275,22 @@ in one condition is much higher than another. Thus the value of splicing index i
 1 or -1 when second or first conditions have zero coverage. 
 In the case when the log2 value exceeds the range (-1,1) it is limited to -1 or 1 respectively. 
 
-<<>>=
+<<eval=FALSE>>=
 nd.si <- getSIFromND(nd.cov, c(2,3))
-distribs(nd.si)[52000:52010,]
+RleList2matrix(distribs(nd.si))[4800:4810,]
 @
+\begin{center}
+
+<<fig=TRUE, eval=FALSE>>=
+distrCOVPlot(nd.cov, 1)
+@
+\end{center}
 
 Splicing index may be plotted for both genes and any genomic regions:
 
 \begin{center}
 <<eval=FALSE, fig=TRUE>>=
-distrSIPlot(nd.cov, 1, 2, mi=5 ,minsup=5)
+distrSIPlot(nd.cov, 1, 2)
 @
 \end{center}
 
@@ -282,7 +306,7 @@ For the genes that have enough coverage, it is possible to calculate nucleotide-
 
 <<>>=
 nd.fc <- getFCFromND(nd.cov, c(2,3))
-distribs(nd.fc)[52000:52010,]
+RleList2matrix(distribs(nd.fc))[4800:4810,]
 @
 
 
@@ -294,7 +318,7 @@ the value of maximal $\mu$ from a sequence for which there is a region covering 
 
 <<>>=
 nd.rbcov <- regionBasedCoverage(nd.cov, seqq=1:10, maxexp=40, minsup=10)
-distribs(nd.rbcov)[52000:52010,]
+RleList2matrix(distribs(nd.rbcov))[4800:4810,]
 @
 
 Such a distribution is useful for removing artifacts from the distributions: high peaks and sudden drops of signal. 

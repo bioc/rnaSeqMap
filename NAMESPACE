@@ -7,6 +7,8 @@ importFrom(DESeq, newCountDataSet)
 importFrom(edgeR, calcNormFactors, DGEList)
 import("IRanges")
 import("xmapcore")
+import("Rsamtools")
+import("GenomicRanges")
 exportPattern("^[^\\.]")
 
 useDynLib( rnaSeqMap, gcoverage, ghistogram, regionmining, splicingind )
