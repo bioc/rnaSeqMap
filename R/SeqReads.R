@@ -42,7 +42,7 @@ newSeqReads <- function( chr, start, end, strand, datain=NULL, phenoData=NULL, f
    rs
 }
 
-getBamData <- function( rs, exps=NULL, files=NULL, covdesc="covdesc")
+getBamData <- function( rs, exps=NULL, files=NULL, unstranded=FALSE, covdesc="covdesc")
 {
   if (!is.null(files))
   {
@@ -62,8 +62,17 @@ getBamData <- function( rs, exps=NULL, files=NULL, covdesc="covdesc")
    start <-  as.numeric(rs@start)
    end <-  as.numeric(rs@end)
    strand <-  as.numeric(rs@strand)
+
+  if (unstranded!=TRUE)
+   {
    if (strand==1)  strand <- "+"
    if (strand==-1)  strand <- "-"
+   }
+  else
+   {
+   strand <- "*"
+   }
+
    gr <- GRanges(seqnames =  chr,
                  ranges = IRanges(start,end),
                  strand =  strand)

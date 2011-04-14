@@ -38,7 +38,7 @@
 \fcolorbox{black}{NoteGrey} {
 \begin{minipage}{13.5cm}
 \begin{center}
-\textbf{ Vignette for v.1.99.00 - created without XMAP database access.}
+\textbf{ Vignette for v.1.99.9 - created without XMAP database access.}
 \end{center}
 
 \end{minipage}
@@ -125,7 +125,7 @@ As the chromosome numbers are simplified in the database into numbers, the X, Y 
 
 After such preparation, all the data files must be loaded to the database, using \code{mysqlimport}, eg:
 
-\code{myslqimport -u mysqlexampleuser -p xmapcorei\_homo\_sapiens\_58 --local seq\_reads }
+\code{myslqimport -u mysqlexampleuser -p xmapcore\_homo\_sapiens\_58 --local seq\_reads }
 
 The \code{seq\_reads} table has then to be indexed as in the script \code{inst\\scripts\\indices.sql}.
 

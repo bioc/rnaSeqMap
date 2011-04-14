@@ -13,7 +13,6 @@ distrSIPlot <- function(nd, ex1, ex2, mi,minsup=5)
 	m1 <- max(RleList2matrix(nd@data[ex1]),ns.rm = FALSE)
 	m2 <- max(RleList2matrix(nd@data[ex2]),ns.rm = FALSE)
 	m  <- max(m1,m2)
-	genes <- geneInChromosome(nd@chr,nd@start,nd@end,nd@strand)
 	
 	plot(0,0,xlab="Position on the chromosome",
 		 ylab="Nr of reads", 
@@ -57,13 +56,13 @@ distrSIPlot <- function(nd, ex1, ex2, mi,minsup=5)
 	legend("topleft",
 		   legend=c(paste("Sample",ex1),paste("Sample",ex2),"Splicing index",paste("Region ",ex1,"(",mi,",",minsup,")"),paste("Region ",ex2,"(",mi,",",minsup,")")),
 		   fill=c("blue","red","lawngreen","blue","red"))
-	legend("topright", legend=c(paste("Chromosome:",nd@chr," strand:",nd@strand,"Gene: ",genes[,2])))
 }
 
 #####################################################################################################################
 distrCOVPlot <- function(nd,exps)
 {  
-	
+ if (xmapConnected())  
+	{
 	colz <- topo.colors(length(exps))
 	genes <- geneInChromosome(nd@chr,nd@start,nd@end,nd@strand)
 	
@@ -75,9 +74,8 @@ distrCOVPlot <- function(nd,exps)
 	
 	for (ii in 1:length(exps))
 	{
-#dlugosc najdluzszego rle
-		m <- max(as.vector(nd@data[[1]]))
-#m <- round(max(distribs(nd[,exps]),ns.rm = FALSE))	
+m <- max(as.vector(nd@data[[]]))
+		#m <- max(RleList2matrix(nd@data[ii]),ns.rm = FALSE)
 		
 		plot(0,0,xlab="Position on the chromosome",
 			 ylab="Nr of reads", 
@@ -130,13 +128,38 @@ distrCOVPlot <- function(nd,exps)
     legend("bottom", legend=paste("Coverage for chromosome:",nd@chr," strand:",nd@strand))
     legend("bottomright", legend=c(paste("Gene: ",genes[,2])))
 	
-}
+	}
+else
+{
+	colz <- topo.colors(length(exps))
+	l<-length(exps)
+	par(mfcol=c(l,1))
+	par(mar=c(2,2,1,1))
+	nucleotides <- nd@start:nd@end 
+	
+	for (ii in 1:length(exps))
+	{
+		m <- max(as.vector(nd@data[[1]]))
+		
+		plot(0,0,xlab="Position on the chromosome",
+			 ylab="Nr of reads", 
+			 xlim=c(nd@start,nd@end), 
+			 ylim=c(0,m),
+			 col.axis="tan4" 
+			 )
+		
+		lines(nucleotides, RleList2matrix(nd@data[ii]), col=colz[ii],type="l")
+		legend("topleft", legend=c(paste("sample",exps[ii])), fill=(c(col=colz[ii])))
+	}
+}}
 
 ###################################################################################################
 
+
 distrCOVPlotg <- function(gene_id,exps)
 {  
-	
+	if (xmapConnected())  
+	{
 	colz <- topo.colors(length(exps))
 	
 	l<-length(exps)
@@ -214,6 +237,9 @@ distrCOVPlotg <- function(gene_id,exps)
     legend("bottomright", legend=c(paste("Gene: ",genes[,2])))
 	
 }
-
+else
+	{
+	cat("No connection with db")
+	}}
 
 ################################
