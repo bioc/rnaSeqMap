@@ -74,7 +74,7 @@ distrCOVPlot <- function(nd,exps)
 	
 	for (ii in 1:length(exps))
 	{
-m <- max(as.vector(nd@data[[]]))
+m <- max(as.vector(nd@data[[ii]]))
 		#m <- max(RleList2matrix(nd@data[ii]),ns.rm = FALSE)
 		
 		plot(0,0,xlab="Position on the chromosome",
