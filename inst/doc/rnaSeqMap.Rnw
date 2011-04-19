@@ -291,7 +291,7 @@ Splicing index may be plotted for both genes and any genomic regions:
 
 \begin{center}
 <<fig=TRUE>>=
-distrSIPlot(nd.cov, 1, 2)
+distrSIPlot(nd.cov, 1, 2,6)
 @
 \end{center}
 
