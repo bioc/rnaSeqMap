@@ -38,7 +38,7 @@
 \fcolorbox{black}{NoteGrey} {
 \begin{minipage}{13.5cm}
 \begin{center}
-\textbf{ Vignette for v.2.7.1 - created without XMAP database access.}
+\textbf{ Vignette for v.2.7.3 - created without XMAP database access.}
 \end{center}
 
 \end{minipage}
@@ -282,7 +282,7 @@ RleList2matrix(distribs(nd.si))[990:1000,]
 @
 \begin{center}
 
-<<fig=TRUE, eval=FALSE>>=
+<<fig=TRUE>>=
 distrCOVPlot(nd.cov, 1)
 @
 \end{center}
@@ -290,7 +290,7 @@ distrCOVPlot(nd.cov, 1)
 Splicing index may be plotted for both genes and any genomic regions:
 
 \begin{center}
-<<eval=FALSE, fig=TRUE>>=
+<<fig=TRUE>>=
 distrSIPlot(nd.cov, 1, 2)
 @
 \end{center}
@@ -326,10 +326,10 @@ Such a distribution is useful for removing artifacts from the distributions: hig
 
 The plots are depicting the coverage before and after the region-based transformation. 
 
-<<eval=FALSE, fig=TRUE>>=
+<< fig=TRUE>>=
 distrCOVPlot(nd.cov, c(3,5))
 @
-<<eval=FALSE, fig=TRUE>>=
+<<fig=TRUE>>=
 distrCOVPlot(nd.rbcov, c(3,5))
 @
 
