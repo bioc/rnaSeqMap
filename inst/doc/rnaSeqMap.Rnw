@@ -291,7 +291,7 @@ Splicing index may be plotted for both genes and any genomic regions:
 
 \begin{center}
 <<fig=TRUE>>=
-distrSIPlot(nd.cov, 1, 2,6)
+distrSIPlot(nd.cov, 2,3,10)
 @
 \end{center}
 
@@ -327,10 +327,10 @@ Such a distribution is useful for removing artifacts from the distributions: hig
 The plots are depicting the coverage before and after the region-based transformation. 
 
 << fig=TRUE>>=
-distrCOVPlot(nd.cov, c(3,5))
+distrCOVPlot(nd.cov, c(2,4))
 @
 <<fig=TRUE>>=
-distrCOVPlot(nd.rbcov, c(3,5))
+distrCOVPlot(nd.rbcov, c(2,4))
 @
 
 
