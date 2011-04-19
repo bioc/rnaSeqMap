@@ -188,10 +188,10 @@ rs <- rs.list[[1]]  # first gene from sample data
 rs <- newSeqReads(2,220143989,220151622,1)
 rs <- newSeqReads(2,223064607,223163715,-1) 
 
-f <- c("test1.bam","test2.bam","test3.bam","test4.bam","test5.bam","test6.bam")
+f <- c("test1.bam","test2.bam","test3.bam","test4.bam","test5.bam")
 ff <- sapply(f, function(x) system.file("extdata", x, package="rnaSeqMap"))
-rs <- getBamData(rs, 1:6, files=ff)
-nd.cov <- getCoverageFromRS(rs, 1:6)
+rs <- getBamData(rs, 1:5, files=ff)
+nd.cov <- getCoverageFromRS(rs, 1:5)
 dd <- RleList2matrix(distribs(nd.cov))
 dd[990:1000, ]    # getting a fragment of the gene
 @
@@ -204,7 +204,7 @@ nsums <- getSumsExp()
 @
 
 <<echo=FALSE>>=
-nsums <- c(25918,32577,63250,123445,126977,543654)
+nsums <- c(25918,32577,63250,123445,126977)
 @
 
 <<>>=

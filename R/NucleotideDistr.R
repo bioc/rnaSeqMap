@@ -1,5 +1,5 @@
 ##################
-#Last update, MO 4.4.2011
+#Last update, MO 18.4.2011
 #
 #
 
@@ -66,6 +66,29 @@ getDistr <- function(nd, i, a=NULL, b=NULL )
 
 
 ###############################################################################
+#getCoverageFromRS <- function (rs, exps)
+#{
+#    stopifnot(is(rs, "SeqReads"))
+#    covVal <- list()
+#    for (e in exps) {
+#        if (rs@data[[e]][1, 1] == 0 & rs@data[[e]][1, 2] == 0) {
+#            vzero <- vector(length = rs@end - rs@start + 1)
+#            vzero[1:(rs@end - rs@start)] <- 0
+#            covVal <- c(covVal, as(vzero, "Rle"))
+#        }
+#        else {
+#            tmpRang <- IRanges(rs@data[[e]][,1], rs@data[[e]][,2]) 
+#            xxx <- coverage(tmpRang)  
+#            covVal[[e]] <- xxx
+#        }
+#    }
+#    pd <- phenoData(rs)
+#    nd <- newNuctleotideDistr(covVal, rs@chr, rs@start, rs@end, 
+#							  rs@strand, "COV", phenoData = pd)
+#    nd
+#}
+
+
 
 getCoverageFromRS <- function (rs, exps)
 
@@ -82,14 +105,14 @@ for (e in exps) {
         else
 {
             xxx <- rnaSeqMap:::.covFun(rs@data[[e]], rs@start, rs@end)
-covVal <- c(covVal, as(xxx,"Rle")) }
+	    covVal <- c(covVal, as(xxx,"Rle")) }
     }
 
    pd <- phenoData(rs)
    nd <- newNuctleotideDistr(covVal, rs@chr, rs@start, rs@end,
   rs@strand, "COV", phenoData = pd)
    nd
-}
+} 
 
 
 #### zamiana Rle na macierz

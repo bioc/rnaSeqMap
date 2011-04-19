@@ -69,14 +69,17 @@ distrCOVPlot <- function(nd,exps)
 	l<-length(exps)
 	par(mfcol=c(l+1,1))
 	par(mar=c(2,2,1,1))
-	
+	m <- NULL
+		
 	nucleotides <- nd@start:nd@end 
-	
+		
+		for (k in 1:length(exps)){
+		m <- c(m,max(as.vector(nd@data[[k]])))}
+		m<-max(m)
+		
 	for (ii in 1:length(exps))
 	{
-m <- max(as.vector(nd@data[[ii]]))
-		#m <- max(RleList2matrix(nd@data[ii]),ns.rm = FALSE)
-		
+
 		plot(0,0,xlab="Position on the chromosome",
 			 ylab="Nr of reads", 
 			 xlim=c(nd@start,nd@end), 
@@ -136,11 +139,14 @@ else
 	par(mfcol=c(l,1))
 	par(mar=c(2,2,1,1))
 	nucleotides <- nd@start:nd@end 
+	m <- NULL
+	
+	for (k in 1:length(exps)){
+	m <- c(m,max(as.vector(nd@data[[k]])))}
+	m<-max(m)
 	
 	for (ii in 1:length(exps))
-	{
-		m <- max(as.vector(nd@data[[1]]))
-		
+	{		
 		plot(0,0,xlab="Position on the chromosome",
 			 ylab="Nr of reads", 
 			 xlim=c(nd@start,nd@end), 

@@ -3,7 +3,7 @@
 #  for a number of experimnets. Thus the genomic coordinates 
 #  must be defined on initialization/construction 
 # NucleotideDistribution, which is S4
-#  AL,MO, 18.08.2010 update 5.10.2010, re-design: Mar/Apr 2011
+#  AL,MO, 18.08.2010 update 18.04.2011, re-design: Mar/Apr 2011
 #####################################################################
 
 setClass( "SeqReads",
@@ -83,7 +83,7 @@ getBamData <- function( rs, exps=NULL, files=NULL, unstranded=FALSE, covdesc="co
     # cat (bams[i],"  \n")
     # cat(str(param))
      outbam <- scanBam(bams[i],index=bams[i],param = param)[[1]]
-     idx <- which(outbam$strand==strand)
+     idx <- which(outbam$strand==strand & outbam$pos >= start)
      if (length(idx)>0)
      {
         ttt <- cbind (outbam$pos[idx],outbam$pos[idx] + outbam$qwidth[idx] )
