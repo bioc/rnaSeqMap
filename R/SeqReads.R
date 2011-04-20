@@ -3,7 +3,7 @@
 #  for a number of experimnets. Thus the genomic coordinates 
 #  must be defined on initialization/construction 
 # NucleotideDistribution, which is S4
-#  AL,MO, 18.08.2010 update 18.04.2011, re-design: Mar/Apr 2011
+#  AL,MO, 18.08.2010 update 19.04.2011, re-design: Mar/Apr 2011
 #####################################################################
 
 setClass( "SeqReads",
@@ -78,22 +78,48 @@ getBamData <- function( rs, exps=NULL, files=NULL, unstranded=FALSE, covdesc="co
                  strand =  strand)
    attrs <- c("strand", "pos", "qwidth")
    param <- ScanBamParam(which = gr, what=attrs)
-   for (i in 1:length(bams))
+  
+	for (i in 1:length(bams))
    {
     # cat (bams[i],"  \n")
     # cat(str(param))
-     outbam <- scanBam(bams[i],index=bams[i],param = param)[[1]]
-     idx <- which(outbam$strand==strand & outbam$pos >= start)
-     if (length(idx)>0)
+    
+	outbam <- scanBam(bams[i],index=bams[i],param = param)[[1]]
+	   
+	idx <- which(outbam$strand==strand & outbam$pos >= start)
+
+	if (length(idx)>0)
      {
-        ttt <- cbind (outbam$pos[idx],outbam$pos[idx] + outbam$qwidth[idx] )
-        rs@data[[i]] <- ttt
-     #   cat (dim(ttt))
+        ttt <- cbind (outbam$pos[idx],outbam$pos[idx] + outbam$qwidth[idx])
+		 
+		 tabelka<-NULL
+		
+		 for(k in 1:dim(ttt)[1])
+		 {
+			 if (ttt[k,2]<=end) 
+			 {		
+				 tabelka<-rbind(tabelka,ttt[k,])
+			 }
+			 rs@data[[i]] <- tabelka
+		 }
      }
-     else rs@data[[i]] <- t(as.data.frame(as.numeric(c(0,0))))
+     else
+			rs@data[[i]] <- t(as.data.frame(as.numeric(c(0,0))))
    }
-   rs
+	rs
 }
+
+
+tabelka<-NULL
+for(k in 1:dim(ttt)[1])
+{
+	if (ttt[k,2]<=end) 
+	{		
+		tabelka<-rbind(tabelka,ttt[k,])
+	}
+}
+tabelka
+
 
 
 addBamData <- function( rs, file, exp, phenoDesc=NULL)
