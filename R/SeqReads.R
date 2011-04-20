@@ -87,7 +87,12 @@ getBamData <- function( rs, exps=NULL, files=NULL, unstranded=FALSE, covdesc="co
      if (length(idx)>0)
      {
         ttt <- cbind (outbam$pos[idx],outbam$pos[idx] + outbam$qwidth[idx] )
-        rs@data[[i]] <- ttt
+        tabelka <- NULL
+	for(k in 1:dim(ttt)[1])
+	{
+	tabelka <- rbind(tabelka,ttt[k,])
+	}
+	rs@data[[i]] <- tabelka
      #   cat (dim(ttt))
      }
      else rs@data[[i]] <- t(as.data.frame(as.numeric(c(0,0))))

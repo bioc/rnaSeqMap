@@ -57,7 +57,6 @@ plotGeneCoverage <- function(gene_id,ex, db = "FALSE")
 
 
 
-
 plotRegionCoverage <- function(chr, start, end, strand,ex, db = "FALSE" )
 {
     colz <- topo.colors(length(ex))
@@ -153,18 +152,12 @@ plotExonCoverage <- function(exon_id,ex,db = "FALSE")
 }
 
 #histogram 
-plotCoverageHistogram <- function(chr,start,end,strand,ex, skip=10,db = "FALSE")
-{
-	l<-length(ex)
-    par(mfcol=c(l,1))
-	
-	colz <- heat.colors(length(ex))
 
-	if (db=='FALSE')
+plotCoverageHistogram <- function(chr,start,end,strand,ex, skip=10)
+{
+	if (xmapConnected())
     {
-		for (i in 1:length(ex))
-		{
-			out<-regionCoverage(chr,start,end,strand, ex[i])
+			out<-regionCoverage(chr,start,end,strand, ex)
 			
 			outp<- .Call("ghistogram",as.integer(out[,1]),as.integer(out[,2]),as.integer(skip))
             hNucleotide<- seq(start,end,skip)
@@ -174,28 +167,45 @@ plotCoverageHistogram <- function(chr,start,end,strand,ex, skip=10,db = "FALSE")
 			title <- paste("Histogram for (",ex,chr,start,end,strand,") skip",skip)
 			
 			plot(0,0,
-			xlab="Position on the chromosome",
-			ylab="Nr of reads",
-			xlim=c(start,end), 
-			ylim=c(0,m) , 
-			main=title,
-			bg="grey100", 
-			col.axis="tan4" )
+				 xlab="Position on the chromosome",
+				 ylab="Nr of reads",
+				 xlim=c(start,end), 
+				 ylim=c(0,m) , 
+				 main=title,
+				 bg="grey100", 
+				 col.axis="tan4" )
 			
 			lines(outl[,1],outl[,2],col="navajowhite4",bg="yellow", type="h",  las=1 ,cex=1.5)
-		}
+		
 	}
 	else
-  {
-   query <- paste("call seq_histogram(",ex,",",chr,",",start,",",end,",",strand,",",skip,");", sep="")
-    
-   out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
-   m <- max(out[,2],na.rm = FALSE)
-   plot(0,0,xlim=c(start,end), ylim=c(0,m) )
-   
-   lines(out[,1],out[,2],col="navajowhite4",bg="yellow", type="h",  las=1 ,cex=1.5)
-  }
-}
+	{
+		
+		rs <- newSeqReads(chr,start,end,strand)
+		rs <- getBamData(rs,ex)
+		nd.cov <- getCoverageFromRS(rs,ex)
+		
+		outp<- .Call("ghistogram",as.integer(c(start:end)),as.integer(as.vector(distribs(nd.cov)[[ex]])),as.integer(skip))
+
+		hNucleotide<- seq(start,end,skip)
+		outl<-cbind(hNucleotide,outp)
+		m <- max(outp) 
+
+		title <- paste("Histogram for (",ex,chr,start,end,strand,") skip",skip)
+		
+#plot(0,0,xlim=c(start,end), ylim=c(0,m) )
+		plot(0,0,
+			 xlab="Position on the chromosome",
+			 ylab="Nr of reads",
+			 xlim=c(start,end), 
+			 ylim=c(0,m) , 
+			 main=title,
+			 bg="grey100", 
+			 col.axis="tan4" )
+		
+		lines(outl[,1],outl[,2],col="navajowhite4",bg="yellow", type="h",  las=1 ,cex=1.5)
+	}
+}	
 
 
 plotGeneExonCoverage <- function(gene_id,ex, db = "FALSE")
@@ -273,24 +283,24 @@ plotGeneExonCoverage <- function(gene_id,ex, db = "FALSE")
 
 #splicing indeks
 
-plotSI <- function(chr,start,end,strand,exp1,exp2,db = "FALSE" )
+plotSI <- function(chr,start,end,strand,exp1,exp2)
 { 
-   
+	
 	title <- paste("Splicing Index for (",exp1,exp2, chr,start,end,strand,")")
 	outp <- NULL
 	
-	if (db=='FALSE')
+	if (xmapConnected())
     {
-    
+		
 		out1<-regionCoverage(chr,start,end,strand,exp1)
 		m1 <- max(out1[,2],ns.rm = FALSE) 
 		s1<-sum(out1[,2])
-  	  
+		
 		out2<-regionCoverage(chr,start,end,strand,exp2)
 		m2 <- max(out2[,2],ns.rm = FALSE) 
 		s2<-sum(out2[,2])
 		m <- max(m1,m2)
-  	  
+		
 		c=(s1/s2)
 		
 		outp <- .Call("splicingind", as.numeric(out1[,2]), as.numeric(out2[,2]),c)		
@@ -298,56 +308,68 @@ plotSI <- function(chr,start,end,strand,exp1,exp2,db = "FALSE" )
 		out <- cbind(out1[,1],outp)
 		
 		plot(0,0,xlab="Position on the chromosome",
-  	           ylab="Nr of reads", 
- 	           xlim=c(start,end), 
- 	           ylim=c(-1.5,1.5) ,
- 	           main=title,
- 	           bg="grey100", 
- 	           col.axis="tan4" )
-  	   
+			 ylab="Nr of reads", 
+			 xlim=c(start,end), 
+			 ylim=c(-1.5,1.5) ,
+			 main=title,
+			 bg="grey100", 
+			 col.axis="tan4" )
+		
 		out1[,2] <- out1[,2]/m
 		out2[,2] <- out2[,2]/m
 		
 		lines(out1[,1],out1[,2],col="blue",type="l")
 		lines(out2[,1],out2[,2],col="red",type="l")
 		lines(out[,1],out[,2],col="lawngreen",type="l")
-  	  
- 	  legend("topleft",
- 	  		legend=c(paste("Sample",exp1),paste("Sample",exp2),"Splicing index"),
- 	  		fill=c("blue","red","lawngreen"))
-	  legend("bottom",legend=c("The coverage value is normalised by max value"))
-     }
-      else
-      {
-      	query <- paste("call seq_indeks(",exp1,",",exp2,",",chr,",",start,",",end,",",strand,",",exp1,");", sep="") 
-   		outp <- xmapcore:::.xmc.db.call(query,   xmapcore:::.xmap.internals$con)
-   
-   		query <- paste("call seq_coverage(",exp1,",",chr,",",start,",",end,",",strand,");", sep="")
-  		out1 <- xmapcore:::.xmc.db.call(query,   xmapcore:::.xmap.internals$con)
-   
-   		query <- paste("call seq_coverage(",exp2,",",chr,",",start,",",end,",",strand,");", sep="") 
-	    out2 <- xmapcore:::.xmc.db.call(query,   xmapcore:::.xmap.internals$con)
-  		
-  		m1 <- max(out1[,2],na.rm=FALSE)
-  		m2 <- max(out2[,2],na.rm=FALSE)
-  		m <- max(m1,m2)
-		  
-        print(outp,digits=16)
-
-		plot(0,0,xlab="Position on the chromosome",
-  	           ylab="Nr of reads", 
- 	           xlim=c(start,end), 
- 	           ylim=c(0,m) ,
- 	           main=title,
- 	           bg="grey100", 
- 	           col.axis="tan4" )
-		  
-		lines(out1[,1],out1[,2],col="blue",type="l")
-  		lines(out2[,1],out2[,2],col="red",type="l")
-        lines(outp[,1],outp[,2],col="lawngreen",type="l")
- 	 
+		
 		legend("topleft",
-				 legend=c(paste("Sample",exp1),paste("Sample",exp2),"Splicing index"),
-				 fill=c("blue","red","lawngreen"))
-	  }
+			   legend=c(paste("Sample",exp1),paste("Sample",exp2),"Splicing index"),
+			   fill=c("blue","red","lawngreen"))
+		legend("bottom",legend=c("The coverage value is normalised by max value"))
+	}
+	else
+	{
+		
+		rs <- newSeqReads(chr,start,end,strand)
+		rs <- getBamData(rs,c(exp1,exp2))
+		
+		nd.cov <- getCoverageFromRS(rs,1:2)
+		m1 <- max(as.vector(distribs(nd.cov)[[1]]),ns.rm = FALSE) 
+		s1<-sum(as.vector(distribs(nd.cov)[[1]]))
+		
+		m2 <- max(as.vector(distribs(nd.cov)[[2]]),ns.rm = FALSE) 
+		s2<-sum(as.vector(distribs(nd.cov)[[2]]))
+		
+		m <- max(m1,m2)
+		c=(s1/s2)
+		
+		outp <- .Call("splicingind", as.numeric(as.vector(distribs(nd.cov)[[1]])), as.numeric(as.vector(distribs(nd.cov)[[2]])),c)		
+		
+		out <- cbind(c(start:end),outp)
+#out <- cbind(out1[,1],outp)
+		
+		plot(0,0,xlab="Position on the chromosome",
+			 ylab="Nr of reads", 
+			 xlim=c(start,end), 
+			 ylim=c(-1.5,1.5) ,
+			 main=title,
+			 bg="grey100", 
+			 col.axis="tan4" )
+		
+		o1 <- as.numeric(as.vector(distribs(nd.cov)[[1]]))/m
+		o2 <- as.numeric(as.vector(distribs(nd.cov)[[2]]))/m
+#out1[,2] <- out1[,2]/m
+#		out2[,2] <- out2[,2]/m
+		
+		lines(c(start:end),o1,col="blue",type="l")
+		lines(c(start:end),o2,col="red",type="l")
+		lines(c(start:end),out[,2],col="lawngreen",type="l")
+		
+		legend("topleft",
+			   legend=c(paste("Sample",exp1),paste("Sample",exp2),"Splicing index"),
+			   fill=c("blue","red","lawngreen"))
+		legend("bottom",legend=c("The coverage value is normalised by max value"))
+		
+		
+	}
 }
