@@ -86,22 +86,25 @@ getBamData <- function( rs, exps=NULL, files=NULL, unstranded=FALSE, covdesc="co
     
 	outbam <- scanBam(bams[i],index=bams[i],param = param)[[1]]
 	   
-	idx <- which(outbam$strand==strand & outbam$pos >= start)
+	   idx <- which(outbam$strand==strand & outbam$pos >= start)
 
 	if (length(idx)>0)
      {
         ttt <- cbind (outbam$pos[idx],outbam$pos[idx] + outbam$qwidth[idx])
 		 
-		 tabelka<-NULL
-		
+
+		 
+#jesli konce wychodza poza zakres zamien na end		 
 		 for(k in 1:dim(ttt)[1])
 		 {
-			 if (ttt[k,2]<=end) 
+			 if (ttt[k,2]>end) 
 			 {		
-				 tabelka<-rbind(tabelka,ttt[k,])
+				 ttt[k,2]<-as.integer(end)
 			 }
-			 rs@data[[i]] <- tabelka
-		 }
+		 } 
+		 
+		 rs@data[[i]] <- ttt
+		 
      }
      else
 			rs@data[[i]] <- t(as.data.frame(as.numeric(c(0,0))))
@@ -110,15 +113,16 @@ getBamData <- function( rs, exps=NULL, files=NULL, unstranded=FALSE, covdesc="co
 }
 
 
-tabelka<-NULL
-for(k in 1:dim(ttt)[1])
-{
-	if (ttt[k,2]<=end) 
-	{		
-		tabelka<-rbind(tabelka,ttt[k,])
-	}
-}
-tabelka
+
+#tabelka<-NULL
+#for(k in 1:dim(ttt)[1])
+#{
+#	if (ttt[k,2]<=end) 
+#	{		
+#		tabelka<-rbind(tabelka,ttt[k,])
+#	}
+#}
+#tabelka
 
 
 
