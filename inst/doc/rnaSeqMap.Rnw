@@ -296,8 +296,9 @@ distrSIPlot(nd.cov, 2,3,10)
 \end{center}
 
 \begin{center}
-<<fig=TRUE, echo=FALSE, eval=FALSE>>=
-plotSI (5,54459000,54461000,-1, 2, 3)
+<<eval=FALSE,fig=TRUE>>=
+plotSI(2,223436000,223437000,-1,2,4)
+
 @
 \end{center}
 
@@ -427,7 +428,8 @@ Examples of the plots:
 
 Histogram-based distribution of coverage:
 <<eval=FALSE, fig=TRUE>>=
-plotCoverageHistogram(1,11000,13500,1,1,skip=50)
+plotCoverageHistogram(2,223435255,223521056,-1,1,500)
+
 @
 
 Coverage plots for a gene, with official exons of the gene plotted below:
