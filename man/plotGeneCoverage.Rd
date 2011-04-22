@@ -12,12 +12,13 @@
 \description{Various plots of genomic coverage for experiments.
 }
 \usage{
+
 plotGeneCoverage(gene_id, ex, db = "FALSE")
 plotRegionCoverage(chr, start, end, strand, ex,  db = "FALSE" ) 
 plotExonCoverage (exon_id,ex, db )
-plotCoverageHistogram (chr,start,end,strand,ex, skip, db = "FALSE")
+plotCoverageHistogram (chr,start,end,strand,ex, skip)
 plotGeneExonCoverage(gene_id, ex, db = "FALSE")
-plotSI(chr,start,end,strand, exp1, exp2, db = "FALSE" )
+plotSI(chr,start,end,strand, exp1, exp2 )
 
 }
 
