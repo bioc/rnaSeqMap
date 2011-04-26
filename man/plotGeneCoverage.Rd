@@ -12,11 +12,12 @@
 \description{Various plots of genomic coverage for experiments.
 }
 \usage{
-plotGeneCoverage(gene_id, ex, db = "FALSE")
-plotRegionCoverage(chr, start, end, strand, ex,  db = "FALSE" ) 
-plotExonCoverage (exon_id,ex, db )
+
+plotGeneCoverage(gene_id, ex)
+plotRegionCoverage(chr, start, end, strand, ex) 
+plotExonCoverage (exon_id,ex)
 plotCoverageHistogram (chr,start,end,strand,ex, skip)
-plotGeneExonCoverage(gene_id, ex, db = "FALSE")
+plotGeneExonCoverage(gene_id, ex)
 plotSI(chr,start,end,strand, exp1, exp2 )
 
 }
@@ -38,8 +39,6 @@ plotSI(chr,start,end,strand, exp1, exp2 )
 }
   \item{strand}{ Strand
 }
-  \item{db}{ uses database implementation
-}
   \item{skip}{ size of the bucket in histogram
 }
 }
@@ -50,7 +49,7 @@ plotSI(chr,start,end,strand, exp1, exp2 )
 \examples{
   if (xmapConnected())  
   {
-    plotGeneCoverage( "ENSG00000141510", 1:3) # plotting TP53 for experiments 1,2,3
-    plotRegionCoverage( 17, 7565257, 7590856, -1, 1:3 ) # the same, using coordinates
+    plotGeneCoverage( "ENSG00000144567", 1:3) # plotting FAM134A for experiments 1,2,3
+    plotRegionCoverage( 2, 220040947, 220050201, 1, 1:3 ) # the same, using coordinates
   }
 }
