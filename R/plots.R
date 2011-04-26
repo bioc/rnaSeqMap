@@ -2,27 +2,27 @@
 
 #wykres funkcji pokrycia dla genu
 
-plotGeneCoverage <- function(gene_id,ex, db = "FALSE")
+plotGeneCoverage <- function(gene_id,ex)
 {
 	l<-length(ex)
         par(mfcol=c(l,1))
 
 	colz <- topo.colors(length(ex))
-	gd <- gene.details(gene_id)
-
-	chr    <- gd$space
-	start  <- gd$ranges@start
-	end    <- gd$ranges@start+gd$ranges@width
-	strand <- gd$strand 	 
- 
- if (db=='FALSE')
+	
+ if (xmapConnected())
     {
-     
+		gd <- gene.details(gene_id)
+		
+		chr    <- gd$space
+		start  <- gd$ranges@start
+		end    <- gd$ranges@start+gd$ranges@width
+		strand <- gd$strand 
+		
      title <- paste(ex,gene_id)
 
 	 for (i in 1:length(ex))
          {
-	 		out<-regionCoverage(ex[i],chr,start,end,strand)
+	 		out<-regionCoverage(chr,start,end,strand,ex[i])
 			m <- max(out[,2],ns.rm = FALSE) 
 			mm <- max(m,na.rm=FALSE)
   		     
@@ -36,35 +36,26 @@ plotGeneCoverage <- function(gene_id,ex, db = "FALSE")
 			lines(out[,1],out[,2],col=colz[i],type="h",xlim=c(start,end),ylim=c(-1,mm))
 			 
 		 }
-     }
+		legend("topleft", legend=c(paste("Gene: ",gene_id),paste("Date: ",format(Sys.time(),"%D")))) 
+		legend("topright", legend=c(paste("sample",ex)), fill=(c(col=colz[ex])))
+
+	}
 	else
 	{
-		for (i in 1:length(ex))
-         {
-  		 query <- paste("call seq_coverage(",ex[i],",",chr,",",start,",",end,",",strand,");", sep="")
-  	     out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
-    
-  		 m <- max(out[,2],ns.rm = FALSE)
-   	     plot(0,0,xlim=c(start,end), ylim=c(0,m) )
-
-         lines(out[,1],out[,2],col=colz[i],type="h")
-         }
+		cat("No connection with database! \n")
     }
 	
-	legend("topleft", legend=c(paste("Gene: ",gene_id),paste("Date: ",format(Sys.time(),"%D")))) 
-	legend("topright", legend=c(paste("sample",ex)), fill=(c(col=colz[ex])))
 }
 
 
 
-plotRegionCoverage <- function(chr, start, end, strand,ex, db = "FALSE" )
+plotRegionCoverage <- function(chr, start, end, strand,ex)
 {
-    colz <- topo.colors(length(ex))
+   colz <- topo.colors(length(ex))
 	l<-length(ex)
     par(mfcol=c(l,1))
-	
 
-	if (db=='FALSE')
+	if (xmapConnected())
     {
 	 	  
 	 for (i in 1:length(ex))
@@ -86,35 +77,32 @@ plotRegionCoverage <- function(chr, start, end, strand,ex, db = "FALSE" )
       }
       else
       {
-       for (i in 1:length(ex))
-		  {
-   			query <- paste("call seq_coverage(",ex[i],",",chr,",",start,",",end,",",strand,");", sep="")
-   			out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
-   			m <- max(out[,2],na.rm=FALSE)
-   			plot(0,0,xlim=c(start,end), ylim=c(0,m) )
-   			lines(out[,1],out[,2],col=colz[i],type="h")
-  			}
-       }
-	legend("topleft", legend=c(paste("Region - start:",start,"end:",end),paste("Date: ",format(Sys.time(),"%D")))) 
-	legend("topright", legend=c(paste("sample",ex)), fill=(c(col=colz[ex])))
+       
+		  rs <- newSeqReads(chr,start,end,strand)
+		  rs <- getBamData(rs,1:length(ex))
+		  nd.cov <- getCoverageFromRS(rs,1:length(ex))
+		  
+		  distrCOVPlot(nd.cov,ex)
+       }	
 }
 
 
-plotExonCoverage <- function(exon_id,ex,db = "FALSE")
+plotExonCoverage <- function(exon_id,ex)
 {
 	colz <- topo.colors(length(ex))
 	ed <- exon.details(exon_id)
     l<-length(ex)
     par(mfcol=c(l,1))
 	
-	chr    <- ed$space
-	start  <- ed$ranges@start
-	end    <- ed$ranges@start+ed$ranges@width
-	strand <- ed$strand 	 
-
-	if (db=='FALSE')
+	
+	if (xmapConnected())
     {
-	 	  
+	
+		chr    <- ed$space
+		start  <- ed$ranges@start
+		end    <- ed$ranges@start+ed$ranges@width
+		strand <- ed$strand 	 
+		
 	 for (i in 1:length(ex))
          {
 			 out<-regionCoverage(chr,start,end,strand, ex[i])
@@ -134,23 +122,13 @@ plotExonCoverage <- function(exon_id,ex,db = "FALSE")
       }
       else
       {
-		for (i in 1:length(ex))
-  		   {
-  			query <- paste("call seq_coverage(",ex[i],",",chr,",",start,",",end,",",strand,");", sep="")
-  			out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
-   
-   			m <- max(out[,2],ns.rm = FALSE)
-			mm <- max(m,na.rm=FALSE)
-			plot(0,0,xlim=c(start,end), ylim=c(0,m) )
-   			lines(out[,1],out[,2],col=colz[i],type="h")
-           }
+		cat("No connection with database! \n")
        }
 	
 	legend("topleft", legend=c(paste("Region - start:",start,"end:",end),paste("Date: ",format(Sys.time(),"%D"))),paste("Exon: ",exon_id)) 
 	legend("topright", legend=c(paste("sample",ex)), fill=(c(col=colz[ex])))
 
 }
-
 #histogram 
 
 plotCoverageHistogram <- function(chr,start,end,strand,ex, skip=10)
@@ -193,7 +171,6 @@ plotCoverageHistogram <- function(chr,start,end,strand,ex, skip=10)
 
 		title <- paste("Histogram for (",ex,chr,start,end,strand,") skip",skip)
 		
-#plot(0,0,xlim=c(start,end), ylim=c(0,m) )
 		plot(0,0,
 			 xlab="Position on the chromosome",
 			 ylab="Nr of reads",
@@ -208,7 +185,7 @@ plotCoverageHistogram <- function(chr,start,end,strand,ex, skip=10)
 }	
 
 
-plotGeneExonCoverage <- function(gene_id,ex, db = "FALSE")
+plotGeneExonCoverage <- function(gene_id,ex)
 {
 	l<-length(ex)
     par(mfcol=c(l+1,1))
@@ -216,21 +193,22 @@ plotGeneExonCoverage <- function(gene_id,ex, db = "FALSE")
 	
 	
 	colz <- topo.colors(length(ex))
-	gd <- gene.details(gene_id)
-	ed <- exon.details(gene.to.exon(gene_id))
-
-	chr    <- gd$space
-	start  <- gd$ranges@start
-	end    <- gd$ranges@start+gd$ranges@width
-	strand <- gd$strand
-
-    estart <- ed$ranges@start
- 	ewidth <- ed$ranges@width
     
- if (db=='FALSE')
+ if (xmapConnected())
     {
               
-	 for (i in 1:length(ex))
+		gd <- gene.details(gene_id)
+		ed <- exon.details(gene.to.exon(gene_id))
+		
+		chr    <- gd$space
+		start  <- gd$ranges@start
+		end    <- gd$ranges@start+gd$ranges@width
+		strand <- gd$strand
+		
+		estart <- ed$ranges@start
+		ewidth <- ed$ranges@width
+		
+	   for (i in 1:length(ex))
          {
 			 out<-regionCoverage(chr,start,end,strand, ex[i])
 			 
@@ -247,22 +225,8 @@ plotGeneExonCoverage <- function(gene_id,ex, db = "FALSE")
 			 lines(out[,1],out[,2],col=colz[i],type="l")
     	 }
    
-	}
-	else
-	{ 
-	for (i in 1:length(ex))
-  		{
-  			query <- paste("call seq_coverage(",ex[i],",",chr,",",start,",",end,",",strand,");", sep="")
-   			out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
-  			m <- max(out[,2],na.rm = FALSE)
-  			mm <- max(m,na.rm=FALSE)
-  			plot(0,0,xlim=c(start,end), ylim=c(-1,mm) ) 
-			lines(out[,1],out[,2],col=colz[i],type="h")
-			
-  		}
-	}
-	
-  	 eksons <- .munion(gene_id)
+		
+		eksons <- rnaSeqMap:::.munion(gene_id)
 	
 	plot(0,0,xlab="Position on the chromosome",
 		 ylab="Nr of reads", 
@@ -278,7 +242,11 @@ plotGeneExonCoverage <- function(gene_id,ex, db = "FALSE")
 	legend("bottomleft", legend=c(paste("Gene: ",gene_id))) 
 	legend("bottom", legend=c(paste("Date: ",format(Sys.time(),"%D")))) 
 	legend("bottomright", legend=c(paste("sample",ex),"exon"), fill=(c(col=colz[ex],"red"))) 
-	 
+	}
+	else
+	{
+	cat("No connection with database! \n")
+	}
 }
 
 #splicing indeks
@@ -346,7 +314,6 @@ plotSI <- function(chr,start,end,strand,exp1,exp2)
 		outp <- .Call("splicingind", as.numeric(as.vector(distribs(nd.cov)[[1]])), as.numeric(as.vector(distribs(nd.cov)[[2]])),c)		
 		
 		out <- cbind(c(start:end),outp)
-#out <- cbind(out1[,1],outp)
 		
 		plot(0,0,xlab="Position on the chromosome",
 			 ylab="Nr of reads", 
@@ -358,8 +325,6 @@ plotSI <- function(chr,start,end,strand,exp1,exp2)
 		
 		o1 <- as.numeric(as.vector(distribs(nd.cov)[[1]]))/m
 		o2 <- as.numeric(as.vector(distribs(nd.cov)[[2]]))/m
-#out1[,2] <- out1[,2]/m
-#		out2[,2] <- out2[,2]/m
 		
 		lines(c(start:end),o1,col="blue",type="l")
 		lines(c(start:end),o2,col="red",type="l")

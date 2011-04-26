@@ -61,7 +61,8 @@ distrSIPlot <- function(nd, ex1, ex2, mi,minsup=5)
 #####################################################################################################################
 distrCOVPlot <- function(nd,exps)
 {  
- if (xmapConnected())  
+
+	if (xmapConnected())  
 	{
 	colz <- topo.colors(length(exps))
 	genes <- geneInChromosome(nd@chr,nd@start,nd@end,nd@strand)
@@ -70,14 +71,17 @@ distrCOVPlot <- function(nd,exps)
 	par(mfcol=c(l+1,1))
 	par(mar=c(2,2,1,1))
 	m <- NULL
+	
+		licznik <- 0	
 		
 	nucleotides <- nd@start:nd@end 
 		
-		for (k in 1:length(exps)){
+		for (k in exps){
 		m <- c(m,max(as.vector(nd@data[[k]])))}
 		m<-max(m)
 		
-	for (ii in 1:length(exps))
+		
+	for (ii in exps)
 	{
 
 		plot(0,0,xlab="Position on the chromosome",
@@ -87,8 +91,9 @@ distrCOVPlot <- function(nd,exps)
 			 col.axis="tan4" 
 			 )
 		
-		lines(nucleotides, RleList2matrix(nd@data[ii]), col=colz[ii],type="l")
-		legend("topleft", legend=c(paste("sample",exps[ii])), fill=(c(col=colz[ii])))
+		licznik <- licznik+1
+		lines(nucleotides, RleList2matrix(nd@data[ii]), col=colz[licznik],type="l")
+		legend("topleft", legend=c(paste("sample",exps[licznik])), fill=(c(col=colz[licznik])))
 	}
 	
 	if (is.null(genes))
@@ -138,14 +143,17 @@ else
 	l<-length(exps)
 	par(mfcol=c(l,1))
 	par(mar=c(2,2,1,1))
+	
+	licznik <- 0
+	
 	nucleotides <- nd@start:nd@end 
 	m <- NULL
 	
-	for (k in 1:length(exps)){
+	for (k in exps){
 	m <- c(m,max(as.vector(nd@data[[k]])))}
 	m<-max(m)
 	
-	for (ii in 1:length(exps))
+	for (ii in exps)
 	{		
 		plot(0,0,xlab="Position on the chromosome",
 			 ylab="Nr of reads", 
@@ -153,11 +161,15 @@ else
 			 ylim=c(0,m),
 			 col.axis="tan4" 
 			 )
+				
+		licznik <- licznik+1
 		
-		lines(nucleotides, RleList2matrix(nd@data[ii]), col=colz[ii],type="l")
-		legend("topleft", legend=c(paste("sample",exps[ii])), fill=(c(col=colz[ii])))
+		lines(nucleotides, RleList2matrix(nd@data[ii]), col=colz[licznik],type="l")
+		legend("topleft", legend=c(paste("sample",exps[licznik])), fill=(c(col=colz[licznik])))
+		
 	}
-}}
+}
+}
 
 ###################################################################################################
 
@@ -201,7 +213,6 @@ distrCOVPlotg <- function(gene_id,exps)
 			 col.axis="tan4")
 		lines(out[,1],out[,2],col=colz[ii],type="l")
 	}
-	
 	if (is.null(genes))
 	{
 		plot(0,0, xlim=c(start,end), ylim=c(-0.5,1) ,bg="grey100", col.axis="tan4")
