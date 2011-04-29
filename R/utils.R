@@ -248,14 +248,135 @@ reads
 # sets species name in case we do not connect to database
 setSpecies <- function(name=NULL)
 {
-   if (is.null(name))
-   {
-     name <- "homo_sapiens" 
-     cat("As you left the parameter blank, I set the default species to homo_sapiens.\nBut please remember: \n\"Humanism is a superstition.\" J.M.Bochenski \n")
-   }
-   assign("species",name,envir=xmapcore:::.xmap.internals)
+	if (is.null(name))
+	{
+		
+		choices <- c(as.character("homo_sapiens"), as.character("rattus_norvegius"),as.character("mus_musculus"), as.character("methylobacterium_extorquens"))	
+		r = menu(choices, title="Select species:")
+		
+		if (r == 1) 
+			name <- "homo_sapiens"
+		else if (r == 2)
+		    name <- "rattus_norvegius"
+		else if (r == 3)  
+			name <- "mus_musculus"
+		else if (r == 4)
+		    name <- "methylobacterium_extorquens"
+		else {
+		    name <- "homo_sapiens" 
+			cat("As you left the parameter blank, I set the default species to homo_sapiens.\nBut please remember: \n\"Humanism is a superstition.\" J.M.Bochenski \n")
+		}}
+		
+	assign("species",name,envir=xmapcore:::.xmap.internals)
 }
 
+
+
+.chr.convert <- function(name)
+{
+	s <- get("species", envir=xmapcore:::.xmap.internals)
+	
+		switch(s,
+			   "mus_musculus" = .mus_musculus(name),
+			   "rattus_norvegius" = .rattus_norvegius(name),
+			   "methylobacterium_extorquens" = .methylobacterium_extorquens(name),
+			   .homo_sapiens(name))	
+}
+			
+.homo_sapiens <- function(name){
+			if (name=='1') out='chr1'
+			else if (name=='2') out='chr2'
+			else if (name=='3') out='chr3'
+			else if (name=='4') out='chr4'
+			else if (name=='5') out='chr5'
+			else if (name=='6') out='chr6'
+			else if (name=='7') out='chr7'
+			else if (name=='8') out='chr8'
+			else if (name=='9') out='chr9'
+			else if (name=='10') out='chr10'
+			else if (name=='11') out='chr11'
+			else if (name=='12') out='chr12'
+			else if (name=='13') out='chr13'
+			else if (name=='14') out='chr14'
+			else if (name=='15') out='chr15'
+			else if (name=='16') out='chr16'
+			else if (name=='17') out='chr17'
+			else if (name=='18') out='chr18'
+			else if (name=='19') out='chr19'
+			else if (name=='20') out='chr20'
+			else if (name=='21') out='chr21'
+			else if (name=='22') out='chr22'
+			else  if (name=='X') out='chrX'
+			else if (name=='Y') out='chrY'
+			else if (name=='MT') out='chrM'
+			else out=30
+			}
+		
+	 .rattus_norvegius <- function(name)
+		{
+			if (name=='1') out='chr1'
+			else if (name=='2') out='chr2'
+			else if (name=='3') out='chr3'
+			else if (name=='4') out='chr4'
+			else if (name=='5') out='chr5'
+			else if (name=='6') out='chr6'
+			else if (name=='7') out='chr7'
+			else if (name=='8') out='chr8'
+			else if (name=='9') out='chr9'
+			else if (name=='10') out='chr10'
+			else if (name=='11') out='chr11'
+			else if (name=='12') out='chr12'
+			else if (name=='13') out='chr13'
+			else if (name=='14') out='chr14'
+			else if (name=='15') out='chr15'
+			else if (name=='16') out='chr16'
+			else if (name=='17') out='chr17'
+			else if (name=='18') out='chr18'
+			else if (name=='19') out='chr19'
+			else  if (name=='X') out='chrX'
+			else if (name=='Y') out='chrY'
+			else if (name=='MT') out='chrM'
+			else out=30
+		
+		}
+	
+		.mus_musculus <- function(name)
+		{
+			if (name=='1') out='chr1'
+			else if (name=='2') out='chr2'
+			else if (name=='3') out='chr3'
+			else if (name=='4') out='chr4'
+			else if (name=='5') out='chr5'
+			else if (name=='6') out='chr6'
+			else if (name=='7') out='chr7'
+			else if (name=='8') out='chr8'
+			else if (name=='9') out='chr9'
+			else if (name=='10') out='chr10'
+			else if (name=='11') out='chr11'
+			else if (name=='12') out='chr12'
+			else if (name=='13') out='chr13'
+			else if (name=='14') out='chr14'
+			else if (name=='15') out='chr15'
+			else if (name=='16') out='chr16'
+			else if (name=='17') out='chr17'
+			else if (name=='18') out='chr18'
+			else if (name=='19') out='chr19'
+			else  if (name=='X') out='chrX'
+			else if (name=='Y') out='chrY'
+			else if (name=='MT') out='chrM'
+			else out=30
+		}
+
+		.methylobacterium_extorquens  <- function(name)
+	{
+		if (name=='META1_META1') out='META1'
+		else if (name=='META2_META2') out='META2'      
+		else  if (name=='p1META_p1META') out='p1META'
+		else if (name=='p2META_p2META') out='p2META'
+		else if (name=='p3META_p3META') out='p3META'
+		else out=30
+	}
+###
 
 .chromosome.number <- function(ch)
 {

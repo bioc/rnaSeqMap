@@ -38,7 +38,7 @@
 \fcolorbox{black}{NoteGrey} {
 \begin{minipage}{13.5cm}
 \begin{center}
-\textbf{ Vignette for v.2.7.7 - created without XMAP database access.}
+\textbf{ Vignette for v.2.7.8 - created without XMAP database access.}
 \end{center}
 
 \end{minipage}
@@ -184,9 +184,13 @@ experimental attributes assigned. The content of this table is assigned to the
 \code{phenoData} slot of the \code{NucleotideDistr} objects that are processed.
 
 <<>>=
+setSpecies("homo_sapiens")
+
+<<>>=
 rs <- rs.list[[1]]  # first gene from sample data
-rs <- newSeqReads(2,220143989,220151622,1)
-rs <- newSeqReads(2,223064607,223163715,-1) 
+
+rs <- newSeqReads(rnaSeqMap:::.chr.convert(2),220143989,220151622,1)
+rs <- newSeqReads('chr2',223064607,223163715,-1) 
 
 f <- c("test1.bam","test2.bam","test3.bam","test4.bam","test5.bam")
 ff <- sapply(f, function(x) system.file("extdata", x, package="rnaSeqMap"))
@@ -291,7 +295,7 @@ Splicing index may be plotted for both genes and any genomic regions:
 
 \begin{center}
 <<fig=TRUE>>=
-distrSIPlot(nd.cov, 2,3,10)
+distrSIPlot(nd.cov, 2,5,10)
 @
 \end{center}
 
