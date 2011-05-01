@@ -272,7 +272,7 @@ setSpecies <- function(name=NULL)
 
 
 
-chr.convert <- function(name)
+.chr.convert <- function(name)
 {
 	s <- get("species", envir=xmapcore:::.xmap.internals)
 	

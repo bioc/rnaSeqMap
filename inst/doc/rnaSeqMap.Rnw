@@ -190,7 +190,7 @@ setSpecies("homo_sapiens")
 rs <- rs.list[[1]]  # first gene from sample data
 
 rs <- newSeqReads('chr2',220238268,220264744,-1)
-rs <- newSeqReads(chr.convert(2),220143989,220151622,1)
+rs <- newSeqReads(rnaSeqMap:::.chr.convert(2),220143989,220151622,1)
 #rs <- newSeqReads('chr2',220114433,220142892,-1)
 
 f <- c("test1.bam","test2.bam","test3.bam","test4.bam","test5.bam")
