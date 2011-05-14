@@ -38,7 +38,7 @@
 \fcolorbox{black}{NoteGrey} {
 \begin{minipage}{13.5cm}
 \begin{center}
-\textbf{ Vignette for v.2.7.8 - created without XMAP database access.}
+\textbf{ Vignette for v.2.7.11 - created without XMAP database access.}
 \end{center}
 
 \end{minipage}
@@ -46,6 +46,10 @@
 
 \tableofcontents
 \newpage
+
+\section{Recent changes and updates}
+
+14.05.2011 - added parseGff3() and bam2sig() - MO, AL
 
 \section{Introduction}
 
