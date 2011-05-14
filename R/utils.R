@@ -463,3 +463,13 @@ xmapConnected <- function()
  exists("con",xmapcore:::.xmap.internals)
 }
  
+
+.wytnij <- function(text,pathern){
+nn <- strsplit(text,";")[[1]] 
+n2 <- grep(pathern,nn) 
+n3 <- nn[n2]
+out <- strsplit(n3,"=")[[1]][2]
+out
+}
+
+
