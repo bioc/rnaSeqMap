@@ -1,6 +1,6 @@
 #######################################################################
 #utils for rna seq data
-#AL, MO, ostatnie update 18.09.2010
+#AL, MO, ostatnie update 15.05.2011
 #######################################################################
 .sigRegions <- function(ex, chr,start,end,strand,mi, minsup, db = "FALSE" )
 {
@@ -466,7 +466,7 @@ xmapConnected <- function()
 
 .wytnij <- function(text,pathern){
 nn <- strsplit(text,";")[[1]] 
-n2 <- grep(pathern,nn) 
+n2 <- grep(pathern,nn,T) 
 n3 <- nn[n2]
 out <- strsplit(n3,"=")[[1]][2]
 out
