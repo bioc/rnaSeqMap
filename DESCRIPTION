@@ -1,8 +1,8 @@
 Package: rnaSeqMap
 Type: Package
 Title: rnaSeq analyses using xmapcore database
-Version: 2.7.7
-Date: 2011-04-26
+Version: 2.7.18
+Date: 2011-10-04
 Author: Anna Lesniewska <alesniewska@cs.put.poznan.pl>; Michal Okoniewski <michal@fgcz.ethz.ch>
 Maintainer: Michal Okoniewski <michal@fgcz.ethz.ch>
 Depends: R (>= 2.11.0), methods, xmapcore, Biobase, Rsamtools
@@ -12,4 +12,4 @@ Description: Provides means of analysis for RNAseq data, used together with geno
 License: GPL-2 
 URL: 
 biocViews: Annotation, Bioinformatics,  ReportWriting, Transcription, GeneExpression, DifferentialExpression, HighThroughputSequencing, RNAseq, SAGE, Visualization
-Collate: zzz.R utils.R plots.R NucleotideDistr.R SeqReads.R NDplots.R NDtransforms.R pipelines.R
+Collate: zzz.R utils.R plots.R NucleotideDistr.R SeqReads.R NDplots.R NDtransforms.R bam2sig.R parseGff3.R pipelines.R normalizations.R measures.R generators.R

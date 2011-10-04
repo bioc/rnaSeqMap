@@ -4,7 +4,6 @@
 
 ####################################################################################################################
 
-
 distrSIPlot <- function(nd, ex1, ex2, mi,minsup=5)
 {  
 	par(mfcol=c(3,1))
@@ -66,8 +65,9 @@ distrCOVPlot <- function(nd,exps)
 	if (xmapConnected())  
 	{
 	colz <- topo.colors(length(exps))
-	genes <- geneInChromosome(nd@chr,nd@start,nd@end,nd@strand)
-	
+	chrom <- substr(nd@chr,4,5)	
+	genes <- geneInChromosome(as.numeric(chrom),nd@start,nd@end,nd@strand)
+			
 	l<-length(exps)
 	par(mfcol=c(l+1,1))
 	par(mar=c(2,2,1,1))

@@ -58,7 +58,8 @@ getBamData <- function( rs, exps=NULL, files=NULL, unstranded=FALSE, covdesc="co
   
   if (length(bams)<1) stop("No .bam files?")
   if (!is.null(exps)) bams <- bams[exps]
-   chr <- paste("chr", as.character(rs@chr), sep="")
+  # chr <- paste("chr", as.character(rs@chr), sep="")
+   chr <- paste(as.character(rs@chr))
    start <-  as.numeric(rs@start)
    end <-  as.numeric(rs@end)
    strand <-  as.numeric(rs@strand)
@@ -86,14 +87,13 @@ getBamData <- function( rs, exps=NULL, files=NULL, unstranded=FALSE, covdesc="co
     
 	outbam <- scanBam(bams[i],index=bams[i],param = param)[[1]]
 	   
-	   idx <- which(outbam$strand==strand)
-#& outbam$pos >= start)
-
-	if (length(idx)>0)
-     {
-        ttt <- cbind (outbam$pos[idx],outbam$pos[idx] + outbam$qwidth[idx])
-		 
-		 tabelka<-NULL
+    idx <- which(outbam$strand==strand & outbam$pos >= start)
+		
+		if (length(idx)>0)
+		{
+			ttt <- cbind (outbam$pos[idx],outbam$pos[idx] + outbam$qwidth[idx])
+	
+			tabelka<-NULL
 		 
 		 for(k in 1:dim(ttt)[1])
 		 {
