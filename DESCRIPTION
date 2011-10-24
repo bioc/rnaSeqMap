@@ -1,14 +1,14 @@
 Package: rnaSeqMap
 Type: Package
-Title: rnaSeq analyses using xmapcore database
-Version: 2.7.20
-Date: 2011-10-08
+Title: rnaSeq secondary analyses 
+Version: 2.7.21
+Date: 2011-10-24
 Author: Anna Lesniewska <alesniewska@cs.put.poznan.pl>; Michal Okoniewski <michal@fgcz.ethz.ch>
 Maintainer: Michal Okoniewski <michal@fgcz.ethz.ch>
 Depends: R (>= 2.11.0), methods, xmapcore, Biobase, Rsamtools
 Imports:  GenomicRanges, IRanges, edgeR, DESeq, DBI,  RMySQL (>= 0.6-0)
 Suggests: 
-Description: Provides means of analysis for RNAseq data, used together with genomic annotation from Ensembl. Requires a set of BAM files on the input or alternatively, an xmapcore database in MySQL as a back-end, which is also a storage for sequencing reads. Front-end analyses include transformations of the coverage function, splicing analysis, finding irreducible regions with the two-sliding-windows algorithm and genomic region visualizations. 
+Description: Provides means of analysis for RNAseq data, used together with genomic annotation. Requires a set of BAM files on the input or alternatively, an xmapcore database in MySQL as a back-end, which is also a storage for sequencing reads. Front-end analyses include transformations of the coverage function, splicing analysis, finding irreducible regions with the two-sliding-windows algorithm and genomic region visualizations. 
 License: GPL-2 
 URL: 
 biocViews: Annotation, Bioinformatics,  ReportWriting, Transcription, GeneExpression, DifferentialExpression, HighThroughputSequencing, RNAseq, SAGE, Visualization

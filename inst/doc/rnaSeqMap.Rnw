@@ -48,7 +48,14 @@
 \newpage
 
 \section{Recent changes and updates}
+04.10.2011 - added data modification generators : generatorAddSquare(), generatorAdd(),generatorMultiply(), generatorTrunc(),
+generatorPeak(), generatorSynth()
 
+local coverage normalizations: standarizationNormalize(), densityNormalize(), min\_maxNormalize()
+
+local coverage difference measures: ks\_test(), diff\_area(), diff\_derivative\_area(),qq\_plot(), qq\_derivative\_plot(), pp\_plot(), 
+pp\_derivative\_plot(), hump\_diff1(), hump\_diff2()   
+  
 14.05.2011 - added parseGff3() and bam2sig() - MO, AL
 
 \section{Introduction}
@@ -65,7 +72,7 @@
 \item{visualizations of genes and expression regions}
 \end{itemize}
 
-The library is independent from the sequencing technology and reads mapping software. It needs either 
+The library is independent from the sequencing technology and reads mappina software. It needs either 
 reads described as genome coordinates in the extended xmap database, or can alternatively read data as 
 big as they can fit in the operational memory. The use with modified xmap database is recommended, as it 
 overcomes memory limitations - thus the library can be efficiently run on not very powerful machines. 

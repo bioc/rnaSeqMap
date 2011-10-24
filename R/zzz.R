@@ -1,3 +1,3 @@
-.onLoad = function(lib,pkg,where) {
+.onLoad = function(lib,pkg) {
 }
 
