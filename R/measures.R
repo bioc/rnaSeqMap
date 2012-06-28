@@ -61,8 +61,8 @@ pp_derivative_plot <- function(dd) {
 
 hump_diff1 <- function(dd)
 { 
-    garby1<-localMax(dd[,1])
-    garby2<-localMax(dd[,2])
+    garby1<-.localMax(dd[,1])
+    garby2<-.localMax(dd[,2])
     n1<-length(garby1)
     for (i in 1:n1)
     {
@@ -87,8 +87,8 @@ hump_diff1 <- function(dd)
 
 hump_diff2 <- function(dd)
 { 
-    garby1<-localMax(dd[,1])  
-    garby2<-localMax(dd[,2])
+    garby1<-.localMax(dd[,1])  
+    garby2<-.localMax(dd[,2])
     n<-2*min(length(garby1),length(garby2))
     n1<-length(garby1)
     for (i in 1:n1)
@@ -142,3 +142,17 @@ hump_diff2 <- function(dd)
 # liczenie bledu srednio-kwadratowego  
 	sqrt(mean((obs$x-obs$y)^2)/2)
 }    
+
+
+.localMax <- function(v)
+{
+#finds local maxima and returns them as index
+	vl <- length(v)
+	idx <-NULL
+	if (v[1]>v[2]) idx <- 1
+	for (i in 2:(vl-1))
+	{
+		if (v[i]>v[i-1] & v[i]>=v[i+1]) idx <- c(idx, i)
+	}
+	idx
+}

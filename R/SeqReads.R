@@ -42,105 +42,37 @@ newSeqReads <- function( chr, start, end, strand, datain=NULL, phenoData=NULL, f
    rs
 }
 
-getBamData <- function( rs, exps=NULL, files=NULL, unstranded=FALSE, covdesc="covdesc")
+
+# version changed into Gapped Alignments in the RS object. MO 28 06 2012
+getBamData <- function( rs, exps=NULL, cvd=NULL, covdesc.file="covdesc")
 {
-  if (!is.null(files))
-  {
-    bams <- files
-    phenoData(rs) <- as(as.data.frame(files), "AnnotatedDataFrame")
-  }
-  else 
-  {
-  cvd <- read.table(covdesc)
+  if (is.null(cvd)) cvd <- read.table(covdesc.file)
   bams <-rownames(cvd)
-  phenoData(rs) <- as(cvd, "AnnotatedDataFrame")
-  }
-  
   if (length(bams)<1) stop("No .bam files?")
   if (!is.null(exps)) bams <- bams[exps]
-  # chr <- paste("chr", as.character(rs@chr), sep="")
-   chr <- paste(as.character(rs@chr))
+   chr <- rs@chr
    start <-  as.numeric(rs@start)
    end <-  as.numeric(rs@end)
-   strand <-  as.numeric(rs@strand)
-
-  if (unstranded!=TRUE)
-   {
+   strand <-  rs@strand
    if (strand==1)  strand <- "+"
    if (strand==-1)  strand <- "-"
-   }
-  else
-   {
-   strand <- "*"
-   }
-
    gr <- GRanges(seqnames =  chr,
                  ranges = IRanges(start,end),
                  strand =  strand)
    attrs <- c("strand", "pos", "qwidth")
    param <- ScanBamParam(which = gr, what=attrs)
-  
-	for (i in 1:length(bams))
+   for (i in 1:length(bams))
    {
-    # cat (bams[i],"  \n")
-    # cat(str(param))
-    
-	outbam <- scanBam(bams[i],index=bams[i],param = param)[[1]]
-	   
-    idx <- which(outbam$strand==strand & outbam$pos >= start)
-		
-		if (length(idx)>0)
-		{
-			ttt <- cbind (outbam$pos[idx],outbam$pos[idx] + outbam$qwidth[idx])
-	
-			tabelka<-NULL
-		 
-		 for(k in 1:dim(ttt)[1])
-		 {
-			 if (ttt[k,2] >= start) 
-			 {		
-				 tabelka<-rbind(tabelka,ttt[k,])
-			 }
-		 }
-		 
-		 if (length(tabelka)>0){ 
-			 
-		 for(k in 1:dim(tabelka)[1])
-		 {
-			 if (tabelka[k,1]<start) 
-			 {		
-				 tabelka[k,1]<-as.integer(start)
-			 }
-		 }
-		 
-#jesli konce wychodza poza zakres zamien na end
-		 
-		 for(k in 1:dim(tabelka)[1])
-		 {
-			 if (tabelka[k,2]>end) 
-			 {		
-				 tabelka[k,2]<-as.integer(end)
-			 }
-		 } 
-		 
-		 rs@data[[i]] <- tabelka
-		 
-		 }
-		 else
-		 {
-			 rs@data[[i]] <- t(as.data.frame(as.numeric(c(0,0))))
-
-		 }
-		 
-	 
-	 }
-     else
-			rs@data[[i]] <- t(as.data.frame(as.numeric(c(0,0))))
+     outbam <- readBamGappedAlignments(bams[i],index=bams[i],param = param)
+     if (strand==1 | strand==-1) outbam <- outbam[strand(outbam)==strand]
+     rs@data[[i]] <- outbam
    }
-	rs
+   rs
 }
 
 
+
+# old version - to change/remove
 addBamData <- function( rs, file, exp, phenoDesc=NULL)
 {
   bams <- file
@@ -198,7 +130,7 @@ setValidity("SeqReads", function(object)
 }
 )
 
-
+# to remove 
 addDataToReadset <- function(rs, datain, spl)
 {
   stopifnot( is( rs, "SeqReads" ) )
@@ -209,7 +141,7 @@ addDataToReadset <- function(rs, datain, spl)
   rs
 }
 
-
+# to remove
 addExperimentsToReadset <- function(rs,exps)
 # e - identifier of the experiment in the database, an int
 {

@@ -1,6 +1,7 @@
 ########################################################################
 #   Transformations of Nucleotide Distribution objects
-#   Michal Okoniewski, Anna Lesniewska, 3.09.2010 ostatni update 18.09.2010
+#   Michal Okoniewski, Anna Lesniewska
+#  last update rle => Rle, MO 28 06 2012
 ########################################################################
 
 findRegionsAsND <- function(nd,mi,minsup=5)
@@ -153,21 +154,25 @@ getSIFromND <- function(nd, exps)
   c=((s1-s2))
 
   outp <- .Call("splicingind", as.numeric(d1), as.numeric(d2),c)
-  outpl <- list(rle(outp))	
+  outpl <- list(Rle(outp))	
 	
   ndout <- newNuctleotideDistr(outpl,nd@chr, nd@start, nd@end, nd@strand, "SI")
   ndout
 }
 
-averageND <- function(nd, exps)
+
+averageND <- function (nd, exps)
 {
-  stopifnot( is( nd, "NucleotideDistr" ) )
-  stopifnot( length(exps)>0)
- 
-  d <- apply(RleList2matrix(nd@data[exps]),1,mean)
-  dl <- list(rle(d))
-  ndout <- newNuctleotideDistr(dl,nd@chr, nd@start, nd@end, nd@strand, nd@type)
-}#by samples
+    stopifnot(is(nd, "NucleotideDistr"))
+    stopifnot(length(exps) > 0)
+    d <- apply(RleList2matrix(nd@data[exps]), 1, mean)
+    dl <- list(Rle(d))
+    ndout <- newNuctleotideDistr(dl, nd@chr, nd@start, nd@end,
+        nd@strand, nd@type)
+}
+
+
+
 
 
 sumND <- function(nd, exps)
@@ -175,7 +180,7 @@ sumND <- function(nd, exps)
   stopifnot( is( nd, "NucleotideDistr" ) )
   stopifnot( length(exps)>0)
   d <- apply(RleList2matrix(nd@data[exps]),1,sum)
-  dl <- list(rle(d))	
+  dl <- list(Rle(d))	
   ndout <- newNuctleotideDistr(dl,nd@chr, nd@start, nd@end, nd@strand, nd@type)
   ndout	
 }#by samples
@@ -186,7 +191,7 @@ combineND <- function(nd1, nd2)
   stopifnot( is( nd2, "NucleotideDistr" ) )
   d1 <- apply(RleList2matrix(nd1@data),1,mean)
   d2 <- apply(RleList2matrix(nd2@data),1,mean) 
-  com <- list(rle(d1+d2))	
+  com <- list(Rle(d1+d2))	
   ndout <- newNuctleotideDistr(com,nd1@chr, nd1@start, nd1@end, nd1@strand, nd1@type)
   ndout	
 }

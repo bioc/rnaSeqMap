@@ -66,74 +66,40 @@ getDistr <- function(nd, i, a=NULL, b=NULL )
 
 
 ###############################################################################
-#getCoverageFromRS <- function (rs, exps)
-#{
-#    stopifnot(is(rs, "SeqReads"))
-#    covVal <- list()
-#    for (e in exps) {
-#        if (rs@data[[e]][1, 1] == 0 & rs@data[[e]][1, 2] == 0) {
-#            vzero <- vector(length = rs@end - rs@start + 1)
-#            vzero[1:(rs@end - rs@start)] <- 0
-#            covVal <- c(covVal, as(vzero, "Rle"))
-#        }
-#        else {
-#            tmpRang <- IRanges(rs@data[[e]][,1], rs@data[[e]][,2]) 
-#            xxx <- coverage(tmpRang)  
-#            covVal[[e]] <- xxx
-#        }
-#    }
-#    pd <- phenoData(rs)
-#    nd <- newNuctleotideDistr(covVal, rs@chr, rs@start, rs@end, 
-#							  rs@strand, "COV", phenoData = pd)
-#    nd
-#}
-
-
-
-getCoverageFromRS <- function (rs, exps)
-
+# new version using GappedAlignments in the input in RS. Output and ND content - no change
+# update: 28 06 2012, MO
+getCoverageFromRS <- function (rs, exps) 
 {
     stopifnot(is(rs, "SeqReads"))
     covVal <- list()
-for (e in exps) {
-
-        if (rs@data[[e]][1, 1] == 0 & rs@data[[e]][1, 2] == 0) {
-            vzero <- vector(length = rs@end - rs@start + 1)
-            vzero[1:(rs@end - rs@start)] <- 0
-            covVal <- c(covVal, as(vzero,"Rle"))
+    for (e in exps) {
+    	
+    	tmp <- coverage(as(rs@data[[e]], "GRanges"))[[rs@chr]]
+    	tmp <- tmp[rs@start:rs@end]
+    	covVal <- c(covVal,tmp)
+        }
+    pd <- phenoData(rs)
+    nd <- newNuctleotideDistr(covVal, rs@chr, rs@start, rs@end, rs@strand, "COV", phenoData = pd)
+    nd
 }
-        else
-{
-            xxx <- rnaSeqMap:::.covFun(rs@data[[e]], rs@start, rs@end)
-	    covVal <- c(covVal, as(xxx,"Rle")) }
-    }
-
-   pd <- phenoData(rs)
-   nd <- newNuctleotideDistr(covVal, rs@chr, rs@start, rs@end,
-  rs@strand, "COV", phenoData = pd)
-   nd
-} 
 
 
 #### zamiana Rle na macierz
+# update: 28 06 2012, MO
 
-RleList2matrix <- function(list)
+RleList2matrix <- function (ll) 
 {
-        stopifnot(is(list,"list"))
-
-        for (i in length(list))
-        {
-                m <- max(length(list[[i]]))
-        }
-
-        macierz <- matrix(0,m,length(list))
-
-        for (e in 1:length(list))
-        {
-                macierz[,e] <- as.vector(list[[e]])
-        }
-        macierz
+    stopifnot(is(ll, "list"))
+    for (i in 1:length(ll)) {
+        m <- max(length(ll[[i]]))
+    }
+    macierz <- matrix(0, m, length(ll))
+    for (e in 1:length(ll)) {
+        macierz[, e] <- as.vector(ll[[e]])
+    }
+    macierz
 }
+
 
 
 ####################################################################
