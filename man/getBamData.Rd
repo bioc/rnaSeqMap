@@ -9,16 +9,14 @@ Add data from experimental samples stored in BAM file.
 }
 
 \usage{
-getBamData(rs, exps=NULL, files=NULL, unstranded=FALSE, covdesc="covdesc")
+getBamData(rs, exps=NULL,  rs, exps=NULL, cvd=NULL, covdesc.file="covdesc")
 }
 \arguments{
   \item{rs}{SeqReads object to modify
 }
   \item{exps}{Vector of numbers of experimental samples
 }
-  \item{files}{Vector of BAM files to read
-}
-  \item{unstranded}{Flag which type of data are using (with distinguishing strand or not)
+  \item{cvd}{Covdesc-like data frame - BAM files are read from row names 
 }
   \item{covdesc}{Alternatively, the experiment description file
 }
