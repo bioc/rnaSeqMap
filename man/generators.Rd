@@ -41,10 +41,13 @@ measures testing.
     Anna Lesniewska,Michal Okoniewski
 }
 \examples{
-rs <- newSeqReads('chr2', 220238268, 220254744, -1)
+   if (1==0)
+   {
+   rs <- newSeqReads('chr2', 220238268, 220254744, -1)
    f <- c("test1.bam", "test2.bam", "test3.bam", "test4.bam", "test5.bam")
    ff <- sapply(f, function(x) system.file("extdata", x, package = "rnaSeqMap"))
-   rs <- getBamData(rs, 1:5, files = ff)    	 
+   rs <- getBamData(rs, 1:5)    	 
    nd <- getCoverageFromRS(rs, 1:5) 
    generatorTrunc(nd,0.5)
+   }
 }

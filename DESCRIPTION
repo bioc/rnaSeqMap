@@ -1,9 +1,9 @@
 Package: rnaSeqMap
 Type: Package
 Title: rnaSeq secondary analyses 
-Version: 2.11.2
-Date: 2012-06-28
-Author: Anna Lesniewska <alesniewska@cs.put.poznan.pl>; Michal Okoniewski <michal@fgcz.ethz.ch>
+Version: 2.11.3
+Date: 2012-07-06
+Author: Anna Lesniewska <alesniewska@cs.put.poznan.pl>; Michal Okoniewski <michal@fgcz.ethz.ch> 
 Maintainer: Michal Okoniewski <michal@fgcz.ethz.ch>
 Depends: R (>= 2.11.0), methods, xmapcore, Biobase, Rsamtools
 Imports:  GenomicRanges, IRanges, edgeR, DESeq, DBI,  RMySQL (>= 0.6-0)

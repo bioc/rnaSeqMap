@@ -9,7 +9,7 @@ Add data from experimental samples stored in BAM file.
 }
 
 \usage{
-getBamData(rs, exps=NULL,  rs, exps=NULL, cvd=NULL, covdesc.file="covdesc")
+getBamData(rs, exps = NULL, cvd = NULL, covdesc.file = "covdesc")
 }
 \arguments{
   \item{rs}{SeqReads object to modify
@@ -18,7 +18,7 @@ getBamData(rs, exps=NULL,  rs, exps=NULL, cvd=NULL, covdesc.file="covdesc")
 }
   \item{cvd}{Covdesc-like data frame - BAM files are read from row names 
 }
-  \item{covdesc}{Alternatively, the experiment description file
+  \item{covdesc.file}{Alternatively, the experiment description file
 }
 }
 

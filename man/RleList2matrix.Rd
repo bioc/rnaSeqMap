@@ -4,10 +4,10 @@
 \description{ Function transforms list of Rle objects to matrix.
 }
 \usage{
-RleList2matrix(list);
+RleList2matrix(ll);
 }
 \arguments{
-  \item{list}{list of Rle objects. 
+  \item{ll}{list of Rle objects. 
 }
   
 }

@@ -46,5 +46,5 @@ hump_diff2 (dd)
  if (xmapConnected())  
   {
    ks_test(dd)
-}
+  }
 }
