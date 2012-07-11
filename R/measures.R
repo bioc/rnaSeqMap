@@ -82,6 +82,7 @@ hump_diff1 <- function(dd)
         }
     }
     out<-out/(n1+n2)
+    if (length(out)==0) out <- 0
 	out
 }
 
@@ -111,6 +112,7 @@ hump_diff2 <- function(dd)
     }
 	if (n==0) n=n1+n2 #in case of no extrema, switches to hump_diff1
     out<-out/n
+    if (length(out)==0) out <- 0
 	out
 }
 
