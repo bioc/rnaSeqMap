@@ -6,7 +6,8 @@
 %documentclass[12pt, a4paper]{article}
 \documentclass[12pt]{article}
 
-\usepackage{auto-pst-pdf}
+\usepackage[utf8]{inputenc} 
+%\usepackage{auto-pst-pdf}
 \usepackage{amsmath,pstricks}
 \usepackage{hyperref}
 \usepackage[numbers]{natbib}
@@ -49,6 +50,7 @@
 \newpage
 
 \section{Recent changes and updates}
+8.09.2012 - the vignette contains mainly the material covered by the ECCB 2012 tutorial chunk
 28.06.2012 - switched to GappedAlignments in RS class and used them to get coverage in ND
            - corrected all the rle into Rle
 04.10.2011 - added data modification generators : generatorAddSquare(), generatorAdd(),generatorMultiply(), generatorTrunc(),
@@ -59,7 +61,7 @@ local coverage normalizations: standarizationNormalize(), densityNormalize(), mi
 local coverage difference measures: ks\_test(), diff\_area(), diff\_derivative\_area(),qq\_plot(), qq\_derivative\_plot(), pp\_plot(), 
 pp\_derivative\_plot(), hump\_diff1(), hump\_diff2()   
   
-14.05.2011 - added parseGff3() and bam2sig() - MO, AL
+14.05.2011 - added parseGff3() 
 
 \section{Introduction}
 
@@ -92,15 +94,70 @@ The internal features of \code{rnaSeqMap} distinctive for this piece of software
 
 %}
 
+\section{Using the SeqReadsand NucleotideDistr objects}
 
+The reads are provided into the objects built according to genome coordinates from BAM files described in the "covdesc" file. 
+
+<<camelRegions, eval=FALSE>>=
+        rs <- newSeqReads(ch,st, en, str);
+        rs <- getBamData(rs,idx.both, cvd=cvd)
+        nd <- getCoverageFromRS(rs, idx.both) 
+@
+
+\section{Processing schema to get the coverage measures using the "camel wrapper"}
+
+To get the coverage difference measures described in \cite{Okoniewski2012}
+Encode the experimental design in the sample description/covdesc file
+The comparison may be done between any two group of samples (1+1, n+n, n+m)
+Get samples indices, eg: 
+
+<<camel1, eval=FALSE>>=
+ idxT <- which(samples$condition=="T")
+ idxC <- which(samples$condition=="C")
+@
+
+Prepare the table of genome coordinates to query
+Encode them as GenomicRanges object, eg:
+
+<<camel2, eval=FALSE>>=
+ regions.gR <- rnaSeqMap:::.fiveCol2GRanges(tmp)
+@
+
+Run the wrapper for all camel comparisons
+
+<<camel3, eval=FALSE>>=
+ regionsCamelMeasures <- gRanges2CamelMeasures(regions.gR,samples,idxT,idxC,sums=sums,progress=10)
+@
+
+Run detection filtering by the density of coverage, eg:
+
+<<camel4, eval=FALSE>>=
+idx <- which(regionsCamelMeasures[,"covDensC1"]>10 | regionsCamelMeasures[,"covDensC1"]>10)
+regionsCamelMeasures <- regionsCamelMeasures[idx, ]
+@
+
+Order the regions by a selected measure:
+<<camel5, eval=FALSE>>=
+o <- order(regionsCamelMeasures[,"QQ.mm"], decreasing=T)
+regionsCamelMeasures <- regionsCamelMeasures [o, ] 
+@
+
+\section{Using Aumann-Lindell two-sliding-window algorithm to find expressed genomic regions}
+
+The regions will be found as new object containing mindiff (second parameter value) for the nucleotides 
+for which there are irreducible regions of coverage with given mindiff and minimal length - minsup.
+For the details of the algorithm see \cite{Lesniewska2011, Aumann2003}   
+
+<<Lindell, eval=FALSE>>=
+nd.AL <- findRegionsAsND(nd, 15, minsup=5)
+@
 
 
 \begin{thebibliography}{99}
-\bibitem{Lindell03}  Aumann Y and Lindell Y, A Statistical Theory for Quantitative Association Rules, Journal of Intelligent Information Systems, 2003
-\bibitem{Yates07} Yates T, Okoniewski M and Miller C, X:Map: annotation and visualization of genome structure for Affymetrix exon array analysis, Nucleic Acids Research, 2007
-\bibitem{Gard07} Gardina P et al, Alternative splicing and differential gene expression in colon cancer detected by a whole genome exon array, BMC Genomics, 2006
-\bibitem{Okon08} Okoniewski M et al, An annotation infrastructure for the analysis and interpretation of Affymetrix exon array data, Genome Biology, 2007
-\bibitem{Anders10} Anders S and Huber W, Differential expression analysis for sequence count data, Nature Preceedings, 2010
-\bibitem{Robinson09} Robinson M et al, edgeR: a Bioconductor package for differential expression analysis of digital gene expression data, Bioinformatics, Bioinformatics, 2009
+\bibitem{Lesniewska2011} Leśniewska, A., Okoniewski, M. J. (2011). rnaSeqMap: a Bioconductor package for RNA sequencing data exploration. BMC bioinformatics, 12, 200. doi:10.1186/1471-2105-12-200
+\bibitem{Okoniewski2012} Okoniewski, M. J., Leśniewska, A., Szabelska, A., Zyprych-Walczak, J., Ryan, M., Wachtel, M., Morzy, T., et al. (2011). Preferred analysis methods for single genomic regions in RNA sequencing revealed by processing the shape of coverage. Nucleic acids research. doi:10.1093/nar/gkr1249
+\bibitem{Aumann2003} Aumann, Y., Lindell, Y. (2003). A Statistical Theory for Quantitative Association Rules. J. Intell. Inf. Syst., 20(3), 255–283.
 \end{thebibliography}
+
+
 \end{document}

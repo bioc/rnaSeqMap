@@ -76,8 +76,18 @@ allCamelMeasuresForRegion <- function(ch, st, en, str, cvd, sample.idx1, sample.
       nd1o
 }
 
-
+# clean it up, when protocols cleaned!!! MO
 .simplePlot <- function (nd, exps, xlab="genome coordinates", ylab="coverage") 
+{
+   nucleotides <- nd@start:nd@end
+   m1 <- max(max(nd@data[[exps[1]]]), max(round(nd@data[[exps[2]]])))
+   m2 <- min(min(nd@data[[exps[1]]]), min(round(nd@data[[exps[2]]])))   
+   plot(nucleotides, nd@data[[exps[1]]], xlim = c(nucleotides[1],nucleotides[length(nucleotides)]), xlab = xlab, ylab = ylab ,ylim = c(m2, m1),col = "red", type = "l")
+   lines(nucleotides, nd@data[[exps[2]]], col = "blue", type = "l")
+   if (length(exps)>2) lines(nucleotides, nd@data[[exps[3]]], col = "green", type = "l")
+}
+
+simplePlot <- function (nd, exps, xlab="genome coordinates", ylab="coverage") 
 {
    nucleotides <- nd@start:nd@end
    m1 <- max(max(nd@data[[exps[1]]]), max(round(nd@data[[exps[2]]])))
@@ -111,7 +121,22 @@ gRanges2CamelMeasures <- function(gR, cvd,  sample.idx1, sample.idx2, sums=NULL,
 }
 # tmp <- gRanges2CamelMeasures(my.gR, cvd, 1:3, 4:7, progress=1)
 
+# clean it up, when protocols cleaned!!! MO
 .fiveCol2GRanges <- function(t)  
+# t is a table with id, chr, start, end, strand
+{
+  ids <- unlist(t[,1])	
+  seqnames <- unlist(t[,2])
+  ranges <- IRanges(start=unlist(t[,3]), end=unlist(t[,4]))
+  strand <- unlist(t[,5])
+  strand[strand==1] <- "+"
+  strand[strand==-1] <-"-"
+  gr <- GRanges(seqnames, ranges, strand)	
+  names(gr) <- ids
+  gr
+}
+
+fiveCol2GRanges <- function(t)  
 # t is a table with id, chr, start, end, strand
 {
   ids <- unlist(t[,1])	
