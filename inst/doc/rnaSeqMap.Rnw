@@ -7,8 +7,8 @@
 \documentclass[12pt]{article}
 
 \usepackage[utf8]{inputenc} 
-%\usepackage{auto-pst-pdf}
 \usepackage{amsmath,pstricks}
+\usepackage{auto-pst-pdf}
 \usepackage{hyperref}
 \usepackage[numbers]{natbib}
 \usepackage{color}
