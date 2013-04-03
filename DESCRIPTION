@@ -1,7 +1,7 @@
 Package: rnaSeqMap
 Type: Package
 Title: rnaSeq secondary analyses 
-Version: 2.13.1
+Version: 2.14.0
 Date: 2012-09-08
 Author: Anna Lesniewska <alesniewska@cs.put.poznan.pl>; Michal Okoniewski <michal@fgcz.ethz.ch> 
 Maintainer: Michal Okoniewski <michal@fgcz.ethz.ch>
