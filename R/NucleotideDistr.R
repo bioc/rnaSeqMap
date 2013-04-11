@@ -66,7 +66,7 @@ getDistr <- function(nd, i, a=NULL, b=NULL )
 
 
 ###############################################################################
-# new version using GappedAlignments in the input in RS. Output and ND content - no change
+# new version using GAlignments in the input in RS. Output and ND content - no change
 # update: 28 06 2012, MO
 getCoverageFromRS <- function (rs, exps) 
 {

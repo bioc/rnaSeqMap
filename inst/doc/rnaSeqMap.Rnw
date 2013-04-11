@@ -51,7 +51,7 @@
 
 \section{Recent changes and updates}
 8.09.2012 - the vignette contains mainly the material covered by the ECCB 2012 tutorial chunk
-28.06.2012 - switched to GappedAlignments in RS class and used them to get coverage in ND
+28.06.2012 - switched to GAlignments in RS class and used them to get coverage in ND
            - corrected all the rle into Rle
 04.10.2011 - added data modification generators : generatorAddSquare(), generatorAdd(),generatorMultiply(), generatorTrunc(),
 generatorPeak(), generatorSynth()
