@@ -28,11 +28,11 @@ normalizeBySum(nd,r=NULL)
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-    rs <- newSeqReads(1,10000,20000,1)
-    nd.cov <- getCoverageFromRS(rs,1:3)
-    nd.norm <- normalizeBySum(nd.cov)
-    nd.norm <- normalizeBySum(nd.cov, r=c(100, 200, 1000))
-  }
+#  if (xmapConnected())  
+#  {
+#    rs <- newSeqReads(1,10000,20000,1)
+#    nd.cov <- getCoverageFromRS(rs,1:3)
+#    nd.norm <- normalizeBySum(nd.cov)
+#    nd.norm <- normalizeBySum(nd.cov, r=c(100, 200, 1000))
+#  }
 }

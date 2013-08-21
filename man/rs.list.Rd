@@ -11,8 +11,8 @@
  sequenced with ABI SOLID machine.
 }
 \examples{
-  data(sample_data_rnaSeqMap)
-  length(rs.list)
-  gene1rs <- rs.list[[1]]
+#  data(sample_data_rnaSeqMap)
+#  length(rs.list)
+#  gene1rs <- rs.list[[1]]
 }
 \keyword{datasets}

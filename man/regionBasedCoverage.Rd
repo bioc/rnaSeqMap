@@ -30,12 +30,12 @@ regionBasedCoverage(nd, seqq=1:10, maxexp=20, minsup=5)
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-  rs <- newSeqReads(1,1,20000,1)
-  rs <- addExperimentsToReadset(rs,1:3)
-  nd.cov <- getCoverageFromRS(rs,1:3)
-  nd.regs <- regionBasedCoverage(nd.cov, 1:10, 100)
+#  if (xmapConnected())  
+#  {
+#  rs <- newSeqReads(1,1,20000,1)
+#  rs <- addExperimentsToReadset(rs,1:3)
+#  nd.cov <- getCoverageFromRS(rs,1:3)
+#  nd.regs <- regionBasedCoverage(nd.cov, 1:10, 100)
   #runs the Lindell-Aumann algorithm at 100, 90, ... and picks maximal mi-level, where the nucleotide has a region found
-  }
+#  }
 }

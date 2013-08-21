@@ -28,10 +28,10 @@ buildDGEList(genes,exps,conds=NULL)
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-    data(sample_data_rnaSeqMap)
-    gg <- names(rs.list)
-    cds <- buildDGEList(gg,1:6, c("a","b","b","a","a","b"))
-  }
+#  if (xmapConnected())  
+#  {
+#    data(sample_data_rnaSeqMap)
+#    gg <- names(rs.list)
+#    cds <- buildDGEList(gg,1:6, c("a","b","b","a","a","b"))
+#  }
 }

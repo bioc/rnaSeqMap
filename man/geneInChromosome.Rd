@@ -25,10 +25,10 @@ geneInChromosome(chr, start, end, strand)
 \value{ table of the genes in a given regions, produced with stored procedure
 }
 \examples{
-  if (xmapConnected())  
-  {
-    geneInChromosome(1, 1, 80000, 1)
-  }
+#  if (xmapConnected())  
+#  {
+#    geneInChromosome(1, 1, 80000, 1)
+#  }
 }
 \author{
    Michal Okoniewski, Anna Lesniewska

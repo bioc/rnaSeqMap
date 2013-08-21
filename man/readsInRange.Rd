@@ -27,10 +27,10 @@ readsInRange(chr, start, end, strand, ex)
 \value{table of reads, as in the database
 }
 \examples{
-  if (xmapConnected())  
-  {
-   tmp <- readsInRange( 1, 10000, 20000, 1,3)
-  }
+#  if (xmapConnected())  
+ # {
+#   tmp <- readsInRange( 1, 10000, 20000, 1,3)
+#  }
 }
 \author{
    Michal Okoniewski, Anna Lesniewska

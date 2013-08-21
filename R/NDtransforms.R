@@ -108,8 +108,9 @@ normalizeBySum <- function(nd,r=NULL)
   if (is.null(r))
    {
 
-        CountDB <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
-        CountDB <- as.vector(CountDB[,1])
+      #  CountDB <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+      #  CountDB <- as.vector(CountDB[,1])
+     CountDB <-c()
    }
   else
   {

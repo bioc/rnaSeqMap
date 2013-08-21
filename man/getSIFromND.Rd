@@ -26,10 +26,10 @@ getSIFromND(nd, exps)
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-    rs <- newSeqReads(1,1,20000,1)
-    nd.cov <- getCoverageFromRS(rs,1:3)
-    nd.fc <- getSIFromND(nd.cov,c(1,3))
-  }
+#  if (xmapConnected())  
+#  {
+#    rs <- newSeqReads(1,1,20000,1)
+#    nd.cov <- getCoverageFromRS(rs,1:3)
+#    nd.fc <- getSIFromND(nd.cov,c(1,3))
+#  }
 }

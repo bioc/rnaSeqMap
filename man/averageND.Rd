@@ -31,13 +31,13 @@ log2ND(nd);
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-    rs <- newSeqReads(1,1,20000,1)
-    nd.cov <- getCoverageFromRS(rs,1:3)
-    nd.avg <- averageND(nd.cov,c(1,3))
-    nd.sum <- averageND(nd.cov,c(1,3))
-    nd.sum <- combineND(nd.cov,nd.cov)
-    nd.log <- log2ND(nd.cov)
-  }
+#  if (xmapConnected())  
+#  {
+#    rs <- newSeqReads(1,1,20000,1)
+#    nd.cov <- getCoverageFromRS(rs,1:3)
+#    nd.avg <- averageND(nd.cov,c(1,3))
+#    nd.sum <- averageND(nd.cov,c(1,3))
+#    nd.sum <- combineND(nd.cov,nd.cov)
+#    nd.log <- log2ND(nd.cov)
+#  }
 }

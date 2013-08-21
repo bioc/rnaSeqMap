@@ -29,12 +29,12 @@ distrSIPlot(nd, ex1, ex2, mi,minsup=5)
 \author{
    Michal Okoniewski, Anna Lesniewska
 }
-\examples{
- data(sample_data_rnaSeqMap)
- rs <- rs.list[[1]]  
-  if (xmapConnected())  
-  {
-   nd.cov <- getCoverageFromRS(rs,1:6)
-   distrSIPlot(nd.cov,  1,3, mi=5, minsup=10) 
-  }
-}
+%\examples{
+%# data(sample_data_rnaSeqMap)
+%# rs <- rs.list[[1]]  
+% # if (xmapConnected())  
+% # {
+%#   nd.cov <- getCoverageFromRS(rs,1:6)
+%#   distrSIPlot(nd.cov,  1,3, mi=5, minsup=10) 
+% # }
+%}

@@ -15,9 +15,9 @@ getSumsExp()
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-   sums <- getSumsExp()
-   nsums
-  }
+#  if (xmapConnected())  
+#  {
+#   sums <- getSumsExp()
+#   nsums
+#  }
 }

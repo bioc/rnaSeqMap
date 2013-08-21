@@ -31,9 +31,9 @@ parseGff3(filegff, fileg="genes.txt", filet="transcripts.txt", filee="exons.txt"
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-     parseGff3("Athaliana.gff3")
-  }
+#  if (xmapConnected())  
+#  {
+#     parseGff3("Athaliana.gff3")
+#  }
 }
 

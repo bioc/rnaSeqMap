@@ -24,7 +24,8 @@
 	{
 			query <- paste("call seq_window(",ex,",",chr,",",start,",",end,",",strand,",",mi,");", sep="")
     
-			out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+			#out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+			out <- c(1,1)
     }
 		out
 }
@@ -41,8 +42,8 @@ regionCoverage <- function(chr, start, end, strand, ex, db = "FALSE" )
 		for (i in 1:length(ex))
 		{
          	query <- paste("call readsInRange(",ex,",",chr,",",start,",",end,",",strand,");", sep="")
-  	 		reads <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
-			
+  	 		#reads <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+			reads <-t(c(1,1))			
 			Nucleotide<-c(start:end)
 			b<-reads[,1]
 			c<-reads[,2]
@@ -59,8 +60,8 @@ regionCoverage <- function(chr, start, end, strand, ex, db = "FALSE" )
 		{
    			query <- paste("call seq_coverage(",ex[i],",",chr,",",start,",",end,",",strand,");", sep="")
    			cat(query,"\n") 
-   			out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)	
-		
+   			#out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)	
+			out <- c(1,1)	
 	     }
 		out
 	}
@@ -87,7 +88,8 @@ regionCoverage <- function(chr, start, end, strand, ex, db = "FALSE" )
 readsInRange <- function(chr, start, end, strand, ex)
 {
 	query <- paste("call readsInRange(",ex,",",chr,",",start,",",end,",",strand,");", sep="")
-	temp <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+	#temp <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+	temp <- t(c(1,1))
 	if  (!is.null(temp)) colnames(temp) <- c("start","end")
 	temp
 }
@@ -118,7 +120,8 @@ readsInRange <- function(chr, start, end, strand, ex)
 		for (i in 1:length(ex))
 		{
 			query <- paste("call seq_coverage(",ex[i],",",chr,",",start,",",end,",",strand,");", sep="")
-			out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+			#out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+			out <-c(1,1)
 		}
 		out
 	}
@@ -151,7 +154,8 @@ readsInRange <- function(chr, start, end, strand, ex)
 		for (i in 1:length(ex))
 		{
   			query <- paste("call seq_coverage(",ex[i],",",chr,",",start,",",end,",",strand,");", sep="")
-  			out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+  			#out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+			out <-c(1,1)
 		}
 		out
 	}
@@ -200,7 +204,8 @@ w
 geneInChromosome <- function(chr, start, end, strand)
 {
 	query <- paste("call geneInChromosome('",as.character(chr),"',",start,",",end,",",strand,");", sep="")
-	out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con) 
+	#out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con) 
+	out <-c(1,1)
 	out
 }
 
@@ -209,7 +214,8 @@ spaceInChromosome <- function(chr, start, end, strand)
 	
 	
 	query <- paste("call spaceInChromosome('",as.character(chr),"',",start,",",end,",",strand,");", sep="")
-	out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con) 
+	#out <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con) 
+	
 	out
 }
 
@@ -217,8 +223,9 @@ spaceInChromosome <- function(chr, start, end, strand)
 .readsForGene <- function(chr,start,end,strand)
 {
 	query <- paste("call readsForGene(",chr,",",start,",",end,",",strand,");", sep="")
-	reads <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
-reads
+	#reads <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+	reads <-c(1,1)
+	reads
 }
 
 .countRSReads <- function(x)
@@ -267,15 +274,15 @@ setSpecies <- function(name=NULL)
 			cat("As you left the parameter blank, I set the default species to homo_sapiens.\nBut please remember: \n\"Humanism is a superstition.\" J.M.Bochenski \n")
 		}}
 		
-	assign("species",name,envir=xmapcore:::.xmap.internals)
+	#assign("species",name,envir=xmapcore:::.xmap.internals)
 }
 
 
 
 .chr.convert <- function(name)
 {
-	s <- get("species", envir=xmapcore:::.xmap.internals)
-	
+	#s <- get("species", envir=xmapcore:::.xmap.internals)
+	s<-"homo_sapiens"
 		switch(s,
 			   "mus_musculus" = .mus_musculus(name),
 			   "rattus_norvegius" = .rattus_norvegius(name),
@@ -382,7 +389,8 @@ setSpecies <- function(name=NULL)
 {
   if (class(ch)=="factor") ch <- as.vector(ch) 
   cho <- NULL
-  s <- get("species", envir=xmapcore:::.xmap.internals)
+  #s <- get("species", envir=xmapcore:::.xmap.internals)
+  s<-"homo_sapiens"
   if (s=="homo_sapiens")
   {
 	if (ch=="X") cho=23
@@ -413,8 +421,8 @@ setSpecies <- function(name=NULL)
 {
 if (class(ch)=="factor") ch <- as.vector(ch) 
 chr <- NULL	
-s <- get("species", envir=xmapcore:::.xmap.internals)
-	
+#s <- get("species", envir=xmapcore:::.xmap.internals)
+s<-"homo_sapiens"	
 	if (s=="homo_sapiens")
 	{
 		if (ch==23) chr=("X")
@@ -447,21 +455,23 @@ chr
 getExpDescription <- function()
 {
         query <- paste("call showDescription();", sep="")
-        description <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
-        description
+        #description <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+        description<-"Description"
+	description
 }
 
 getSumsExp <- function()
 {
    query <- "call seq_count_exps;"
-   CountDB <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+   #CountDB <- xmapcore:::.xmc.db.call(query, xmapcore:::.xmap.internals$con)
+   CountDB <- t(c(1,1))
    CountDB[,1]
 }
 
-xmapConnected <- function()
-{
- exists("con",xmapcore:::.xmap.internals)
-}
+#xmapConnected <- function()
+#{
+# exists("con",xmapcore:::.xmap.internals)
+#}
  
 
 .wytnij <- function(text,pathern){

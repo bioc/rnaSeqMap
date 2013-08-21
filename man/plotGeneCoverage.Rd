@@ -47,9 +47,9 @@ plotSI(chr,start,end,strand, exp1, exp2 )
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-    plotGeneCoverage( "ENSG00000144567", 1:3) # plotting FAM134A for experiments 1,2,3
-    plotRegionCoverage( 2, 220040947, 220050201, 1, 1:3 ) # the same, using coordinates
-  }
+#  if (xmapConnected())  
+#  {
+#    plotGeneCoverage( "ENSG00000144567", 1:3) # plotting FAM134A for experiments 1,2,3
+#    plotRegionCoverage( 2, 220040947, 220050201, 1, 1:3 ) # the same, using coordinates
+#  }
 }

@@ -18,13 +18,13 @@ RleList2matrix(ll);
 \author{
    Michal Okoniewski, Anna Lesniewska
 }
-\examples{
-  if (xmapConnected())  
-  {
-    rs <- newSeqReads(1,1,20000,1)
-    rs <- getBamData(rs,1:3)
-    nd.cov <- getCoverageFromRS(rs,1:3)
-    RleList2matrix(nd.cov@data)  
-  }
-}
+%\examples{
+%#  if (xmapConnected())  
+%#  {
+%    rs <- newSeqReads(1,1,20000,1)
+%    rs <- getBamData(rs,1:3)
+%    nd.cov <- getCoverageFromRS(rs,1:3)
+%    RleList2matrix(nd.cov@data)  
+%#  }
+%}
 

@@ -43,8 +43,8 @@ hump_diff2 (dd)
 }
 
 \examples{
- if (xmapConnected())  
-  {
-   ks_test(dd)
-  }
+# if (xmapConnected())  
+#  {
+#   ks_test(dd)
+#  }
 }

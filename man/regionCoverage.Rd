@@ -30,10 +30,10 @@ regionCoverage(chr, start, end, strand, ex, db = "FALSE" )
 \value{coverage vector, independent from \code{NucleotideDistr}
 }
 \examples{
-  if (xmapConnected())  
-  {
-   tmp <- regionCoverage( 1, 10000, 20000, 1,3)
-  }
+#  if (xmapConnected())  
+#  {
+#   tmp <- regionCoverage( 1, 10000, 20000, 1,3)
+#  }
 }
 \author{
    Michal Okoniewski, Anna Lesniewska

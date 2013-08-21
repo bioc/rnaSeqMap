@@ -24,13 +24,13 @@ findRegionsAsIR(nd, mi, minsup=5, exp)
    IRanges object with irreducible regions with high coverage. 
 }
 \examples{
-  if (xmapConnected())  
-  {
-    rs <- newSeqReads(1,1,20000,1)
-    rs <- addExperimentsToReadset(rs,1:3)
-    nd.cov <- getCoverageFromRS(rs,1:3)
-    nd.regs <- findRegionsAsND(nd.cov, 10)
-  }
+#  if (xmapConnected())  
+#  {
+#    rs <- newSeqReads(1,1,20000,1)
+#    rs <- addExperimentsToReadset(rs,1:3)
+#    nd.cov <- getCoverageFromRS(rs,1:3)
+#    nd.regs <- findRegionsAsND(nd.cov, 10)
+#  }
 }
 \author{
    Michal Okoniewski, Anna Lesniewska

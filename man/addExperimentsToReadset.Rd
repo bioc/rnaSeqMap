@@ -25,9 +25,9 @@ addExperimentsToReadset(rs, exps)
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-    rs <- newSeqReads(1,1,20000,1)
-    rs <- addExperimentsToReadset(rs,1:3)
-  }
+#  if (xmapConnected())  
+#  {
+#    rs <- newSeqReads(1,1,20000,1)
+#    rs <- addExperimentsToReadset(rs,1:3)
+#  }
 }

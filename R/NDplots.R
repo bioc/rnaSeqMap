@@ -62,7 +62,8 @@ distrSIPlot <- function(nd, ex1, ex2, mi,minsup=5)
 distrCOVPlot <- function(nd,exps)
 {  
 
-	if (xmapConnected())  
+	#if (xmapConnected())
+	if(TRUE)  
 	{
 	colz <- topo.colors(length(exps))
 	chrom <- substr(nd@chr,4,5)	
@@ -177,7 +178,8 @@ else
 
 distrCOVPlotg <- function(gene_id,exps)
 {  
-	if (xmapConnected())  
+	#if (xmapConnected())  
+	if(TRUE)
 	{
 	colz <- topo.colors(length(exps))
 	

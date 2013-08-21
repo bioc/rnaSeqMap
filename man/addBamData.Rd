@@ -31,10 +31,10 @@ addBamData(rs, file, exp, phenoDesc=NULL)
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-    rs <- newSeqReads(1,1,20000,1)
-    rs <- addBamData(rs,1:3)
-  }
+#  if (xmapConnected())  
+#  {
+#    rs <- newSeqReads(1,1,20000,1)
+#    rs <- addBamData(rs,1:3)
+#  }
 }
 

@@ -9,7 +9,8 @@ plotGeneCoverage <- function(gene_id,ex)
 
 	colz <- topo.colors(length(ex))
 	
- if (xmapConnected())
+    if(TRUE)	
+    #if (xmapConnected())
     {
 		gd <- gene.details(gene_id)
 		
@@ -55,7 +56,8 @@ plotRegionCoverage <- function(chr, start, end, strand,ex)
 	l<-length(ex)
     par(mfcol=c(l,1))
 
-	if (xmapConnected())
+    if(TRUE)	
+#	if (xmapConnected())
     {
 	 	  
 	 for (i in 1:length(ex))
@@ -69,7 +71,7 @@ plotRegionCoverage <- function(chr, start, end, strand,ex)
   	           xlim=c(start,end), 
   	           ylim=c(0,m) ,
   	           bg="grey100", 
-  	           col.axis="tan4" )
+  	          col.axis="tan4" )
 
   		     lines(out[,1],out[,2],col=colz[i],type="h")
 
@@ -95,7 +97,8 @@ plotExonCoverage <- function(exon_id,ex)
     par(mfcol=c(l,1))
 	
 	
-	if (xmapConnected())
+    if(TRUE)	
+    #if (xmapConnected())
     {
 	
 		chr    <- ed$space
@@ -133,7 +136,9 @@ plotExonCoverage <- function(exon_id,ex)
 
 plotCoverageHistogram <- function(chr,start,end,strand,ex, skip=10)
 {
-	if (xmapConnected())
+	
+    if(TRUE)
+    #if (xmapConnected())
     {
 			out<-regionCoverage(chr,start,end,strand, ex)
 			
@@ -194,7 +199,8 @@ plotGeneExonCoverage <- function(gene_id,ex)
 	
 	colz <- topo.colors(length(ex))
     
- if (xmapConnected())
+    if(TRUE) 
+    #if (xmapConnected())
     {
               
 		gd <- gene.details(gene_id)
@@ -256,8 +262,9 @@ plotSI <- function(chr,start,end,strand,exp1,exp2)
 	
 	title <- paste("Splicing Index for (",exp1,exp2, chr,start,end,strand,")")
 	outp <- NULL
-	
-	if (xmapConnected())
+
+     if(TRUE)	
+    #if (xmapConnected())
     {
 		
 		out1<-regionCoverage(chr,start,end,strand,exp1)

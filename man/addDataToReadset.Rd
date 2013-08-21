@@ -28,7 +28,7 @@ addDataToReadset(rs, datain, spl)
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  rs <- newSeqReads(1,1,20000,1)
-  my.data1 <- rbind(c(1,50), c(3,53), c(11,60))
-  rs <- addDataToReadset(rs, my.data1, 1)
+#  rs <- newSeqReads(1,1,20000,1)
+#  my.data1 <- rbind(c(1,50), c(3,53), c(11,60))
+#  rs <- addDataToReadset(rs, my.data1, 1)
 }

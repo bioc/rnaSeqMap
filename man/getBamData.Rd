@@ -31,10 +31,10 @@ getBamData(rs, exps = NULL, cvd = NULL, covdesc.file = "covdesc")
    Michal Okoniewski, Anna Lesniewska
 }
 \examples{
-  if (xmapConnected())  
-  {
-    rs <- newSeqReads(1,1,20000,1)
-    rs <- getBamData(rs,1:3)
-  }
+#  if (xmapConnected())  
+#  {
+#    rs <- newSeqReads(1,1,20000,1)
+#    rs <- getBamData(rs,1:3)
+#  }
 }
 

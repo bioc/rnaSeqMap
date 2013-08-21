@@ -6,7 +6,7 @@ importFrom(Biobase, annotatedDataFrameFrom, assayData, assayDataNew,
 importFrom(DESeq, newCountDataSet)
 importFrom(edgeR, calcNormFactors, DGEList)
 import("IRanges")
-import("xmapcore")
+#import("xmapcore")
 import("Rsamtools")
 import("GenomicRanges")
 exportPattern("^[^\\.]")
