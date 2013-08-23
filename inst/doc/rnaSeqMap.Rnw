@@ -13,6 +13,7 @@
 \usepackage[numbers]{natbib}
 \usepackage{color}
 \usepackage[scaled]{helvet}
+\usepackage{auto-pst-pdf}
 \renewcommand*\familydefault{\sfdefault}
 
 \definecolor{NoteGrey}{rgb}{0.96,0.97,0.98}
