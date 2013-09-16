@@ -1,12 +1,12 @@
 Package: rnaSeqMap
 Type: Package
 Title: rnaSeq secondary analyses 
-Version: 2.16.1
-Date: 2013-08-19
+Version: 2.17.1
+Date: 2013-09-16
 Author: Anna Lesniewska <alesniewska@cs.put.poznan.pl>; Michal Okoniewski <michal@fgcz.ethz.ch> 
 Maintainer: Michal Okoniewski <michal@fgcz.ethz.ch>
-Depends: R (>= 2.11.0), methods, Biobase, Rsamtools (>= 1.12.1)
-Imports: GenomicRanges (>= 1.12.4), IRanges, edgeR, DESeq, DBI
+Depends: R (>= 2.11.0), methods, Biobase, Rsamtools
+Imports: GenomicRanges , IRanges, edgeR, DESeq, DBI
 Description: The rnaSeqMap library provides classes and functions to analyze the RNA-sequencing data using the coverage profiles in multiple samples at a time
 License: GPL-2
 biocViews: Annotation, Bioinformatics,  ReportWriting, Transcription, GeneExpression, DifferentialExpression, HighThroughputSequencing, RNAseq, SAGE, Visualization

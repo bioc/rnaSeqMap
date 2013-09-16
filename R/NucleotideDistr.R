@@ -63,8 +63,22 @@ getDistr <- function(nd, i, a=NULL, b=NULL )
 }
 
 
+#method for getting data from ND withou @ operator/ampliQueso reviewer request/ MW
+#16.09.2013
+getData <- function(iND){
+		
+   return(iND@data)	
+}
 
+setSAXPYData <-function(iND1,iParam,i){
 
+	iND1@data[[i]] <- iND1@data[[i]]*iParam 
+}
+
+setData <-function(iND1,iND2) {
+
+	iND1<-iND2
+}
 ###############################################################################
 # new version using GAlignments in the input in RS. Output and ND content - no change
 # update: 28 06 2012, MO
