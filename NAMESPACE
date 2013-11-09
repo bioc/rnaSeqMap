@@ -6,9 +6,10 @@ importFrom(Biobase, annotatedDataFrameFrom, assayData, assayDataNew,
 importFrom(DESeq, newCountDataSet)
 importFrom(edgeR, calcNormFactors, DGEList)
 import("IRanges")
-#import("xmapcore")
-import("Rsamtools")
 import("GenomicRanges")
+import("Rsamtools")
+import("GenomicAlignments")
+#import("xmapcore")
 exportPattern("^[^\\.]")
 
 useDynLib( rnaSeqMap, gcoverage, ghistogram, regionmining, splicingind )
