@@ -88,7 +88,7 @@ getCoverageFromRS <- function (rs, exps)
     covVal <- list()
     for (e in exps) {
     	
-    	tmp <- coverage(as(rs@data[[e]], "GRanges"))[[rs@chr]]
+    	tmp <- coverage(granges(rs@data[[e]]))[[rs@chr]]
     	tmp <- tmp[rs@start:rs@end]
     	covVal <- c(covVal,tmp)
         }
