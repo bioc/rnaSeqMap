@@ -4,12 +4,12 @@
 
  double avg (int *tab,int s,int e)
 {
-	int i, n;
-        n=1;
+	int i, na;
+        na=1;
 	double avg=0;
 	for (i=s;i<=e;i++){
-		avg	= (((avg *(n-1))/n+(double)tab[i]/n));
-		n=n++;
+		avg	= (((avg *(na-1))/na+(double)tab[i]/na));
+		na=na+1;
 	}
 	return avg;
 } 

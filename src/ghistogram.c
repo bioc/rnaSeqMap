@@ -5,9 +5,10 @@
 SEXP ghistogram(SEXP a, SEXP b,SEXP skip)
 {
 	
-	int i, j, k, l , na, nb, nab, Is;
+	int i, j, l , na, nb, nab, Is;
     int *xa, *xb, *xab;
     SEXP ab;
+     int k;
 	
 	Is = INTEGER_POINTER(skip)[0];
     
@@ -28,7 +29,7 @@ SEXP ghistogram(SEXP a, SEXP b,SEXP skip)
 	while ( i < na) {
 		for(j = i; j < i+Is; j++)
 			xab[k] += xb[j];
-	        k=k++;
+	        k=k+1;
 	i=i+Is;
 	}
     
