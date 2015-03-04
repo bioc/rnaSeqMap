@@ -63,7 +63,7 @@ getBamData <- function( rs, exps=NULL, cvd=NULL, covdesc.file="covdesc")
    param <- ScanBamParam(which = gr, what=attrs)
    for (i in 1:length(bams))
    {
-     outbam <- readGAlignmentsFromBam(bams[i],index=bams[i],param = param)
+     outbam <- readGAlignments(bams[i],index=bams[i],param = param)
      if (strand==1 | strand==-1) outbam <- outbam[strand(outbam)==strand]
      rs@data[[i]] <- outbam
    }
