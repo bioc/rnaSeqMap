@@ -1,7 +1,7 @@
 Package: rnaSeqMap
 Type: Package
 Title: rnaSeq secondary analyses
-Version: 2.41.0
+Version: 2.41.1
 Date: 2014-09-30
 Author: Anna Lesniewska <alesniewska@cs.put.poznan.pl>; Michal
         Okoniewski <michal@fgcz.ethz.ch>
@@ -15,5 +15,5 @@ License: GPL-2
 Collate: zzz.R utils.R plots.R NucleotideDistr.R SeqReads.R NDplots.R
         NDtransforms.R bam2sig.R parseGff3.R pipelines.R
         normalizations.R measures.R generators.R camelWrapper.R
-biocViews: Annotation, ReportWriting, Transcription, GeneExpression,
+biocViews: ImmunoOncology, Annotation, ReportWriting, Transcription, GeneExpression,
         DifferentialExpression, Sequencing, RNASeq, SAGE, Visualization
