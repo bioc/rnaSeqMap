@@ -8,12 +8,10 @@
 
 \usepackage[utf8]{inputenc} 
 \usepackage{amsmath,pstricks}
-%\usepackage{auto-pst-pdf}
 \usepackage{hyperref}
 \usepackage[numbers]{natbib}
 \usepackage{color}
 \usepackage[scaled]{helvet}
-\usepackage{auto-pst-pdf}
 \renewcommand*\familydefault{\sfdefault}
 
 \definecolor{NoteGrey}{rgb}{0.96,0.97,0.98}
